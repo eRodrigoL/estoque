@@ -1,1 +1,40 @@
-<p>edicao-produto works!</p>
+<section>
+  <h2>Edição do Produto</h2>
+
+  <form>
+    <mat-form-field>
+      <mat-label>Nome do Produto</mat-label>
+      <input matInput placeholder="Digite o nome do produto" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Categoria do Produto</mat-label>
+      <input matInput placeholder="Digite a categoria do produto" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Preço do Produto</mat-label>
+      <input matInput placeholder="Digite o preço do produto" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Quantidade no Estoque</mat-label>
+      <input matInput placeholder="Digite quantidade no estoque" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Reposição já foi solicitada?></mat-label>
+      <mat-slide-toggle />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Observações</mat-label>
+      <input matInput placeholder="Opcionais" />
+    </mat-form-field>
+  </form>
+
+  <div>
+    <button type="button" matButton="outlined">Cancelar</button>
+    <button type="submit" matButton="filled">Salvar</button>
+  </div>
+</section>

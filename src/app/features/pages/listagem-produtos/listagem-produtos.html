@@ -1,1 +1,28 @@
-<p>listagem-produtos works!</p>
+<section>
+  <h2>Produtos</h2>
+
+  <mat-form-field>
+    <mat-label>Pesquisar produto</mat-label>
+    <input matInput placeholder="Ex: refrigerante" />
+  </mat-form-field>
+
+  <div>
+    <button type="button" matButton="filled">Adicionar produto</button>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Coca-Cola 2L</mat-card-title>
+      <mat-card-subtitle>Refrigerante</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>R$ 12,99</p>
+      <p>Estoque: 10</p>
+      <p>Reposição solicitada: <mat-slide-toggle /></p>
+      <p>Observações: nenhuma</p>
+    </mat-card-content>
+
+    <button type="button" matButton="filled">Editar</button>
+  </mat-card>
+</section>

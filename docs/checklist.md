@@ -209,7 +209,7 @@
       "start": "ng serve",
       "start:db": "node ./scripts/preparar-db-json.mjs",
       "server": "json-server --watch mock/db.json --port 3000",
-      "dev": "npm run start:db &&concurrently \"npm:start\" \"npm:server\"",
+      "dev": "npm run start:db &&concurrently \"npm:start\" \"npm:server\""
     }
   }
   ```
@@ -366,114 +366,189 @@ npx ng add @angular/material
 > Importante não esquecer da propriedade `type` nos botões.
 
 - Neste projeto:
+  - [ ] Cabeçalho:
+
+    ```html
+    <!-- src/app/shared/components/cabecalho/cabecalho.html -->
+    <mat-toolbar>
+      <span>Estoque</span>
+    </mat-toolbar>
+    ```
+
+    ```ts
+    // src/app/shared/components/cabecalho/cabecalho.ts
+
+    // import { Component } from '@angular/core';
+    import { MatToolbarModule } from '@angular/material/toolbar';
+
+    @Component({
+      //  selector: 'app-cabecalho',
+      imports: [MatToolbarModule],
+      //  templateUrl: './cabecalho.html',
+      //  styleUrl: './cabecalho.scss',
+    })
+    export class Cabecalho {}
+    ```
+
   - [ ] Página de listagem:
 
     ```html
-    <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+    <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
     <section>
-      <h2>Tarefas</h2>
+      <h2>Produtos</h2>
 
       <mat-form-field>
-        <mat-label>Pesquisar tarefa</mat-label>
-        <input matInput placeholder="Ex.: estudar para prova" />
+        <mat-label>Pesquisar produto</mat-label>
+        <input matInput placeholder="Ex: refrigerante" />
       </mat-form-field>
 
       <div>
-        <button type="button" matButton="filled">Nova tarefa</button>
+        <button type="button" matButton="filled">Adicionar produto</button>
       </div>
 
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Tarefa de exemplo</mat-card-title>
-          <mat-card-subtitle>Pendente</mat-card-subtitle>
+          <mat-card-title>Coca-Cola 2L</mat-card-title>
+          <mat-card-subtitle>Refrigerante</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
-          <p>Descrição da tarefa de exemplo.</p>
+          <p>R$ 12,99</p>
+          <p>Estoque: 10</p>
+          <p>Reposição solicitada: <mat-slide-toggle /></p>
+          <p>Observações: nenhuma</p>
         </mat-card-content>
 
-        <mat-card-actions>
-          <button type="button" matButton="filled">Editar</button>
-          <button type="button" matButton="outlined">Remover</button>
-        </mat-card-actions>
+        <button type="button" matButton="filled">Editar</button>
       </mat-card>
     </section>
     ```
 
-  - [ ] Página de criação:
+    ```ts
+    // src/app/features/pages/listagem-produtos/listagem-produtos.ts
+
+    // import { Component } from '@angular/core';
+    import { MatFormFieldModule } from '@angular/material/form-field';
+    import { MatButtonModule } from '@angular/material/button';
+    import { MatCardModule } from '@angular/material/card';
+    import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+    @Component({
+      // selector: 'app-listagem-produtos',
+      imports: [MatFormFieldModule, MatButtonModule, MatCardModule, MatSlideToggleModule],
+      // templateUrl: './listagem-produtos.html',
+      // styleUrl: './listagem-produtos.scss',
+    })
+    export class ListagemProdutos {}
+    ```
+
+  - [ ] Página de registro:
 
     ```html
-    <!-- src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.html -->
+    <!-- src/app/features/pages/registro-produto/registro-produto.html -->
     <section>
-      <h2>Criacao de tarefa</h2>
+      <h2>Registro de Produto</h2>
 
       <form>
         <mat-form-field>
-          <mat-label>Titulo</mat-label>
-          <input matInput placeholder="Digite o titulo da tarefa" />
+          <mat-label>Nome do Produto</mat-label>
+          <input matInput placeholder="Digite o nome do produto" />
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Descricao</mat-label>
-          <textarea matInput placeholder="Digite uma descricao para a tarefa"></textarea>
+          <mat-label>Categoria do Produto</mat-label>
+          <input matInput placeholder="Digite a categoria do produto" />
         </mat-form-field>
 
-        <div>
-          <button type="button" matButton="outlined">Cancelar</button>
-          <button type="submit" matButton="filled">Salvar</button>
-        </div>
+        <mat-form-field>
+          <mat-label>Preço do Produto</mat-label>
+          <input matInput placeholder="Digite o preço do produto" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Quantidade no Estoque</mat-label>
+          <input matInput placeholder="Digite quantidade no estoque" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Reposição já foi solicitada?></mat-label>
+          <mat-slide-toggle />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Observações</mat-label>
+          <input matInput placeholder="Opcionais" />
+        </mat-form-field>
       </form>
+
+      <div>
+        <button type="button" matButton="outlined">Cancelar</button>
+        <button type="submit" matButton="filled">Salvar</button>
+      </div>
     </section>
     ```
 
+    ```ts
+    // src/app/features/pages/registro-produto/registro-produto.ts
+
+    // import { Component } from '@angular/core';
+    import { MatFormFieldModule } from '@angular/material/form-field';
+    import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+    import { MatButtonModule } from '@angular/material/button';
+    import { MatInputModule } from '@angular/material/input';
+
+    @Component({
+      // selector: 'app-registro-produto',
+      imports: [MatFormFieldModule, MatSlideToggleModule, MatButtonModule, MatInputModule],
+      // templateUrl: './registro-produto.html',
+      // styleUrl: './registro-produto.scss',
+    })
+    export class RegistroProduto {}
+    ```
+
   - [ ] Página de edição:
+
+    Igual página de registro, mudando só o subtítulo `<h2></h2>`
 
     ```html
     <!-- src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.html -->
     <section>
       <h2>Edicao de tarefa</h2>
 
-      <form>
-        <mat-form-field>
-          <mat-label>Titulo</mat-label>
-          <input matInput value="Tarefa de exemplo" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Descricao</mat-label>
-          <textarea matInput>Descricao da tarefa de exemplo.</textarea>
-        </mat-form-field>
-
-        <div>
-          <button type="button" matButton="outlined">Cancelar</button>
-          <button type="submit" matButton="filled">Salvar alteracoes</button>
-        </div>
-      </form>
+      [...]
     </section>
     ```
 
   - [ ] Modal de confirmação:
 
     ```html
-    <h2 mat-dialog-title>Remover tarefa</h2>
+    <!-- src/app/shared/components/modal-confirmacao/modal-confirmacao.html -->
+    <h2 mat-dialog-title>Remover produto</h2>
 
     <mat-dialog-content>
-      <p>Tem certeza que deseja remover esta tarefa?</p>
+      <p>Tem certeza que deseja remover este produto?</p>
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
-      <button matButton>Cancelar</button>
-      <button matButton="filled">Remover</button>
+      <button type="button" matButton="outlined">Cancelar</button>
+      <button type="button" matButton="filled" mat-dialog-close="true">Remover</button>
     </mat-dialog-actions>
     ```
 
-  - [ ] Cabeçalho
+    ```ts
+    // src/app/shared/components/modal-confirmacao/modal-confirmacao.ts
 
-    ```html
-    <!-- src/app/shared/components/cabecalho/cabecalho.html -->
-    <mat-toolbar>
-      <span>Lista de Tarefas</span>
-    </mat-toolbar>
+    // import { Component } from '@angular/core';
+    import { MatDialogModule } from '@angular/material/dialog';
+    import { MatButtonModule } from '@angular/material/button';
+
+    @Component({
+      //  selector: 'app-modal-confirmacao',
+      imports: [MatDialogModule, MatButtonModule],
+      //  templateUrl: './modal-confirmacao.html',
+      //  styleUrl: './modal-confirmacao.scss',
+    })
+    export class ModalConfirmacao {}
     ```
 
 ---
@@ -484,7 +559,7 @@ npx ng add @angular/material
 
 Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
-- [ ] Configurar `provideRouter(routes)` no `app.config.ts`
+- [ ] Conferir `provideRouter(routes)` no `app.config.ts`
 
   ```ts
   import { ApplicationConfig } from '@angular/core';
@@ -503,10 +578,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
       ```ts
       {
-        path: 'tarefas',
+        path: 'produtos',
         loadComponent: () =>
-          import('./features/tarefas/pages/listagem-tarefas/listagem-tarefas')
-            .then((m) => m.ListagemTarefas),
+          import('./features/pages/listagem-produtos/listagem-produtos')
+            .then((m) => m.ListagemProdutos),
         pathMatch: 'full',
       }
       ```
@@ -515,10 +590,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
       ```ts
       {
-        path: 'tarefas/criacao',
+        path: 'produtos/criacao',
         loadComponent: () =>
-          import('./features/tarefas/pages/criacao-tarefa/criacao-tarefa')
-            .then((m) => m.CriacaoTarefa),
+          import('./features/pages/criacao-produto/criacao-produto')
+            .then((m) => m.CriacaoProduto),
       }
       ```
 
@@ -526,10 +601,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
       ```ts
       {
-        path: 'tarefas/edicao/:id',
+        path: 'produtos/edicao/:id',
         loadComponent: () =>
-          import('./features/tarefas/pages/edicao-tarefa/edicao-tarefa')
-            .then((m) => m.EdicaoTarefa),
+          import('./features/pages/edicao-produto/edicao-produto')
+            .then((m) => m.EdicaoProduto),
       }
       ```
 
@@ -538,7 +613,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       ```ts
       {
         path: '',
-        redirectTo: 'tarefas',
+        redirectTo: 'produtos',
         pathMatch: 'full',
       }
       ```
@@ -548,7 +623,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       ```ts
       {
         path: '**',
-        redirectTo: 'tarefas',
+        redirectTo: 'produtos',
       }
       ```
 
