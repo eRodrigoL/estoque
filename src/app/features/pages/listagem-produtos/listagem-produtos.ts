@@ -5,9 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-listagem-produtos',
-  imports: [MatFormFieldModule, MatButtonModule, MatCardModule, MatSlideToggleModule],
+  imports: [MatFormFieldModule, MatButtonModule, MatCardModule, MatSlideToggleModule, RouterLink],
   templateUrl: './listagem-produtos.html',
   styleUrl: './listagem-produtos.scss',
 })

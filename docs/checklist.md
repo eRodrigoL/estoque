@@ -80,7 +80,7 @@
 - [x] Definir (planejar) as páginas:
   - Neste projeto:
     - listagem
-    - criação
+    - registro
     - edição
 
 - [x] Definir (planejar) interfaces principais
@@ -311,7 +311,7 @@ npx ng add @angular/material
       npx ng g c features/pages/listagem-produtos
       ```
 
-    - [ ] Criar página de criação
+    - [ ] Criar página de registro
 
       ```bash
       npx ng g c features/pages/registro-produto
@@ -511,9 +511,9 @@ npx ng add @angular/material
     Igual página de registro, mudando só o subtítulo `<h2></h2>`
 
     ```html
-    <!-- src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.html -->
+    <!-- src/app/features/pages/edicao-produto/edicao-produto.html -->
     <section>
-      <h2>Edicao de tarefa</h2>
+      <h2>Edição do Produto</h2>
 
       [...]
     </section>
@@ -586,7 +586,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       }
       ```
 
-    - [ ] Criar rota de criação
+    - [ ] Criar rota de registro
 
       ```ts
       {
@@ -639,33 +639,33 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   import { RouterLink } from '@angular/router';
   ```
 
-- [ ] Implementar `routerLink="rota-de-destino"` nos elementos de navegação do template
+- [ ] Implementar `routerLink="/rota-de-destino"` nos elementos de navegação do template
   - Neste projeto:
-    - da **listagem** para criação
-      - [ ] Adicionar link no botão **Nova tarefa**
+    - da **listagem** para registro
+      - [ ] Adicionar link no botão **Adicionar produto**
 
         ```html
-        <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
-        <button matButton="filled" routerLink="/tarefas/criacao">Nova tarefa</button>
+        <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
+        <button matButton="filled" routerLink="/produtos/registro">Adicionar produto</button>
         ```
 
     - da **listagem** para edição
       - [ ] Adicionar link no botão **Editar**
 
         > O `1` ainda é fixo só para validar a navegação.
-        > Depois, no CRUD real, ele se tornará o `id` dinâmico da tarefa.
+        > Depois, no CRUD real, ele se tornará o `id` dinâmico do produto.
 
         ```html
-        <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
-        <button matButton="filled" [routerLink]="['/tarefas/edicao', 1]">Editar</button>
+        <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
+        <button matButton="filled" [routerLink]="['/produtos/edicao', 1]">Editar</button>
         ```
 
-    - de **criação** para listagem
+    - de **registro** para listagem
       - [ ] Adicionar link no botão **Cancelar**
 
         ```html
-        <!-- src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.html -->
-        <button type="button" matButton="outlined" routerLink="/tarefas">Cancelar</button>
+        <!-- src/app/features/pages/registro-produto/registro-produto.html -->
+        <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
         ```
 
       - Não adicionar rota no botão **Salvar**
@@ -676,33 +676,22 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       - [ ] Adicionar link no botão **Cancelar**
 
         ```html
-        <!-- src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.html -->
-        <button type="button" matButton="outlined" routerLink="/tarefas">Cancelar</button>
+        <!-- src/app/features/pages/edicao-produto/edicao-produto.html -->
+        <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
         ```
 
       - Não adicionar rota no botão **Salvar**
 
         > Essa navegação fará parte da lógica no TypeScript.
 
-    - de volta após salvar
-      - [ ] Adicionar link no botão **Salvar**
-
-        > Esse uso no botão de submit é apenas provisório para validar o fluxo visual.
-        > Depois, o correto será navegar programaticamente com `Router` via TypeScript após o submit.
-
-        ```html
-        <!-- Exemplo temporário -->
-        <button type="submit" matButton="filled" routerLink="/tarefas">Salvar</button>
-        ```
-
 - [ ] Confirmar fluxo básico completo entre páginas
   - Neste projeto:
-    - [ ] Entrar em `/tarefas`
-    - [ ] Ir para `/tarefas/criacao`
-    - [ ] Voltar para `/tarefas`
-    - [ ] Ir para `/tarefas/edicao/1`
-    - [ ] Voltar para `/tarefas`
-    - [ ] Acessar uma rota inexistente e confirmar redirecionamento para `/tarefas`
+    - [ ] Entrar em `/produtos`
+    - [ ] Ir para `/produtos/criacao`
+    - [ ] Voltar para `/produtos`
+    - [ ] Ir para `/produtos/edicao/1`
+    - [ ] Voltar para `/produtos`
+    - [ ] Acessar uma rota inexistente e confirmar redirecionamento para `/produtos`
 
 ---
 
@@ -719,26 +708,26 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   > - `npx ng g c nome-da-interface`, se o Angular não foi instalado globalmente
 
   ```bash
-  npx ng generate interface shared/interfaces/tarefa
+  npx ng generate interface shared/interfaces/produto
   ```
 
 - Neste projeto:
-  - [ ] Criar `tarefa.ts`
+  - [ ] Criar `produto.ts`
 
     ```bash
     npx ng generate interface nome-da-interface
     ```
 
     ```ts
-    // src/app/shared/interfaces/tarefa.ts
-    export interface Tarefa {
+    // src/app/shared/interfaces/produto.ts
+    export interface produto {
       id: number;
       titulo: string;
       descricao: string;
       concluida: boolean;
     }
 
-    export type PayloadTarefa = Omit<Tarefa, 'id'>;
+    export type Payloadproduto = Omit<Produto, 'id'>;
     ```
 
 - [ ] Configurar `provideHttpClient()` no `app.config.ts`
@@ -761,14 +750,14 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```bash
-    npx ng g s core/services/tarefas.service
+    npx ng g s core/services/produtos.service
     ```
 
 - [ ] Injetar `HttpClient` no service
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
+    // src/app/core/services/produtos.service.ts
     import { HttpClient } from '@angular/common/http';
     import { inject, Injectable } from '@angular/core';
 
@@ -778,7 +767,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     })
     */
 
-    export class TarefasService {
+    export class produtosService {
       private readonly http = inject(HttpClient);
     }
     ```
@@ -787,17 +776,17 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
-    private readonly apiUrl = 'http://localhost:3000/tarefas';
+    // src/app/core/services/produtos.service.ts
+    private readonly apiUrl = 'http://localhost:3000/produtos';
     ```
 
 - [ ] Implementar `getAll`
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
+    // src/app/core/services/produtos.service.ts
     import { ..., HttpParams } from '@angular/common/http';
-    import { Tarefa } from '@shared/interfaces/tarefa';
+    import { Produto } from '@shared/interfaces/produto';
 
     [...]
 
@@ -808,7 +797,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
         params = params.set(`q`, busca);
       }
 
-      return this.http.get<Tarefa[]>(this.apiUrl, { params });
+      return this.http.get<Produto[]>(this.apiUrl, { params });
     }
     ```
 
@@ -816,9 +805,9 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
+    // src/app/core/services/produtos.service.ts
     getById(id: number | string) {
-      return this.http.get<Tarefa>(`${this.apiUrl}/${id}`);
+      return this.http.get<Produto>(`${this.apiUrl}/${id}`);
     }
     ```
 
@@ -826,13 +815,13 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
-    import { PayloadTarefa } from '@shared/interfaces/tarefa';
+    // src/app/core/services/produtos.service.ts
+    import { PayloadProduto } from '@shared/interfaces/produto';
 
     [...]
 
-    criar(payload: PayloadTarefa) {
-      return this.http.post<Tarefa>(this.apiUrl, payload);
+    criar(payload: PayloadProduto) {
+      return this.http.post<Produto>(this.apiUrl, payload);
     }
     ```
 
@@ -840,9 +829,9 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
-    update(id: number, payload: PayloadTarefa) {
-      return this.http.put<Tarefa>(`${this.apiUrl}/${id}`, payload);
+    // src/app/core/services/produtos.service.ts
+    update(id: number, payload: PayloadProduto) {
+      return this.http.put<Produto>(`${this.apiUrl}/${id}`, payload);
     }
     ```
 
@@ -850,7 +839,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/tarefas.service.ts
+    // src/app/core/services/produtos.service.ts
     remove(id: number) {
       return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
@@ -858,37 +847,37 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 - [ ] Validar chamadas básicas no backend fake via terminal
   - Neste projeto:
-    - [ ] Listar todas as tarefas
+    - [ ] Listar todas as produtos
 
       ```bash
-      curl http://localhost:3000/tarefas
+      curl http://localhost:3000/produtos
       ```
 
-    Como tabela `tarefas` está vazia, o retorno deve ser um Array vazio: **[ ]**
+    Como tabela `produtos` está vazia, o retorno deve ser um Array vazio: **[ ]**
 
 ---
 
 ### 12. CRUD funcional — listagem primeiro
 
-- Listar tarefas
+- Listar produtos
   - [ ] Buscar lista no backend
 
     ```ts
-    // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
+    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
     import { [...], inject, signal } from '@angular/core';
 
-    import { Tarefa } from '@shared/interfaces/tarefa';
-    import { TarefasService } from '@core/services/tarefas.service';
+    import { Produto } from '@shared/interfaces/produto';
+    import { ProdutosService } from '@core/services/produtos.service';
 
-    export class ListagemTarefas {
-      private readonly tarefasService = inject(TarefasService);
+    export class ListagemProdutos {
+      private readonly produtosService = inject(ProdutosService);
 
-      tarefas = signal<Tarefa[]>([]);
+      produtos = signal<Produto[]>([]);
 
       ngOnInit() {
-        this.tarefasService.getAll().subscribe({
-          next: (tarefas) => {
-            this.tarefas.set(tarefas);
+        this.produtosService.getAll().subscribe({
+          next: (produtos) => {
+            this.produtos.set(produtos);
           },
         });
       }
@@ -898,21 +887,23 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Trocar itens estáticos da listagem por dados reais
 
     ```html
-    <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
     <section>
-      [...] @for (tarefa of tarefas(); track tarefa.id) {
+      [...] @for (produto of produtos(); track produto.id) {
       <mat-card>
         <mat-card-header>
-          <mat-card-title>{{ tarefa.titulo }}</mat-card-title>
-          <mat-card-subtitle> {{ tarefa.concluida ? 'Concluída' : 'Pendente' }} </mat-card-subtitle>
+          <mat-card-title>{{ produto.titulo }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ produto.concluida ? 'Concluída' : 'Pendente' }}
+          </mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
-          <p>{{ tarefa.descricao }}</p>
+          <p>{{ produto.descricao }}</p>
         </mat-card-content>
 
         <mat-card-actions>
-          <button matButton="filled" [routerLink]="['/tarefas/edicao', tarefa.id]">Editar</button>
+          <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
           <button matButton="outlined">Remover</button>
         </mat-card-actions>
       </mat-card>
@@ -923,16 +914,16 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Exibir carregamento simples
 
     ```ts
-    // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
-    export class ListagemTarefas {
+    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+    export class ListagemProdutos {
       ...
 
       carregando = signal(true);
 
       ngOnInit() {
-        this.tarefasService.getAll().subscribe({
-          next: (tarefas) => {
-            this.tarefas.set(tarefas);
+        this.produtosService.getAll().subscribe({
+          next: (produtos) => {
+            this.produtos.set(produtos);
             this.carregando.set(false);
           },
           error: () => {
@@ -944,11 +935,11 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
     <section>
       [...] @if (carregando()) {
-      <p>Carregando tarefas...</p>
-      } @else { @for (tarefa of tarefas(); track tarefa.id) {
+      <p>Carregando produtos...</p>
+      } @else { @for (produto of produtos(); track produto.id) {
       <mat-card> [...] </mat-card>
       } }
     </section>
@@ -957,20 +948,20 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Exibir mensagem simples se ocorrer erro ao carregar
 
     ```ts
-    // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
-    export class ListagemTarefas {
+    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+    export class ListagemProdutos {
       [...]
 
       erro = signal('');
 
       ngOnInit() {
-        this.tarefasService.getAll().subscribe({
-          next: (tarefas) => {
-            this.tarefas.set(tarefas);
+        this.produtosService.getAll().subscribe({
+          next: (produtos) => {
+            this.produtos.set(produtos);
             this.carregando.set(false);
           },
           error: () => {
-            this.erro.set('Nao foi possivel carregar as tarefas.');
+            this.erro.set('Nao foi possivel carregar as produtos.');
             this.carregando.set(false);
           },
         });
@@ -979,15 +970,15 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
     <section>
-      <h2>Tarefas</h2>
+      <h2>Produtos</h2>
 
       [...] @if (carregando()) {
-      <p>Carregando tarefas...</p>
+      <p>Carregando produtos...</p>
       } @else if (erro()) {
       <p>{{ erro() }}</p>
-      } @else { @for (tarefa of tarefas(); track tarefa.id) {
+      } @else { @for (produto of produtos(); track produto.id) {
       <mat-card> ... </mat-card>
       } }
     </section>
@@ -997,11 +988,11 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ### 13. CRUD funcional — criação
 
-- Criar tarefa
+- Criar produto
   - [ ] Montar formulário com Reactive Forms
 
     ```ts
-    // src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.ts
+    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
     [...]
     import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -1012,7 +1003,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       ],
     })
 
-    export class CriacaoTarefa {
+    export class CriacaoProduto {
       form = new FormGroup({
         titulo: new FormControl('', {
           nonNullable: true,
@@ -1027,7 +1018,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.html -->
+    <!-- src/app/features/produtos/pages/criacao-produto/criacao-produto.html -->
     [...]
     <form [formGroup]="form">
       [...]
@@ -1044,8 +1035,8 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Fazer submit simples no front
 
     ```ts
-    // src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.ts
-    export class CriacaoTarefa {
+    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
+    export class CriacaoProduto {
       [...]
 
       salvar() {
@@ -1055,7 +1046,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.html -->
+    <!-- src/app/features/produtos/pages/criacao-produto/criacao-produto.html -->
     <section>
       [...]
 
@@ -1066,22 +1057,22 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Trocar dados fixos do formulário por envio real
 
     ```ts
-    // src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.ts
+    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
     import { [...], inject } from '@angular/core';
     import { Router } from '@angular/router';
 
-    import { TarefasService } from '@core/services/tarefas.service';
+    import { ProdutosService } from '@core/services/produtos.service';
 
-    export class CriacaoTarefa {
+    export class CriacaoProduto {
       private readonly router = inject(Router);
-      private readonly tarefasService = inject(TarefasService);
+      private readonly produtosService = inject(ProdutosService);
 
       [...]
 
       salvar() {
         if (this.form.invalid) return;
 
-        this.tarefasService.criar({
+        this.produtosService.criar({
           ...this.form.getRawValue(),
           concluida: false,
         }).subscribe();
@@ -1092,19 +1083,19 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Navegar de volta para a listagem após criar
 
     ```ts
-    // src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.ts
-    export class CriacaoTarefa {
+    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
+    export class CriacaoProduto {
       [...]
 
       salvar() {
         if (this.form.invalid) return;
 
-        this.tarefasService.criar({
+        this.produtosService.criar({
           ...this.form.getRawValue(),
           concluida: false,
         }).subscribe({
           next: () => {
-            this.router.navigateByUrl('/tarefas');
+            this.router.navigateByUrl('/produtos');
           },
         });
       }
@@ -1115,16 +1106,16 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ### 14. CRUD funcional — edição
 
-- Editar tarefa
+- Editar produto
   - [ ] Navegar para edição com `id`
 
     ```html
-    <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
     <section>
       [...]
 
       <mat-card-actions>
-        <button matButton="filled" [routerLink]="['/tarefas/edicao', tarefa.id]">Editar</button>
+        <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
         <button matButton="outlined">Remover</button>
       </mat-card-actions>
 
@@ -1132,28 +1123,28 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     </section>
     ```
 
-  - [ ] Buscar tarefa por `id`
+  - [ ] Buscar produto por `id`
 
     ```ts
-    // src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.ts
+    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
     import { [...], inject } from '@angular/core';
     import { ActivatedRoute, RouterLink } from '@angular/router';
-    import { TarefasService } from '@core/services/tarefas.service';
+    import { ProdutosService } from '@core/services/produtos.service';
 
     @Component({
-      selector: 'app-edicao-tarefa',
+      selector: 'app-edicao-produto',
       imports: [...],
-      templateUrl: './edicao-tarefa.html',
-      styleUrl: './edicao-tarefa.scss',
+      templateUrl: './edicao-produto.html',
+      styleUrl: './edicao-produto.scss',
     })
-    export class EdicaoTarefa {
+    export class EdicaoProduto {
       private readonly route = inject(ActivatedRoute);
-      private readonly tarefasService = inject(TarefasService);
+      private readonly produtosService = inject(ProdutosService);
 
       readonly id = Number(this.route.snapshot.paramMap.get('id'));
 
       ngOnInit() {
-        this.tarefasService.getById(this.id).subscribe();
+        this.produtosService.getById(this.id).subscribe();
       }
     }
     ```
@@ -1161,21 +1152,21 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Preencher formulário com dados reais
 
     ```ts
-    // src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.ts
+    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
     import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
     import { MatInputModule } from '@angular/material/input';
 
     @Component({
-      selector: 'app-edicao-tarefa',
+      selector: 'app-edicao-produto',
       imports: [
         [...],
         ReactiveFormsModule,
         MatInputModule,
       ],
-      templateUrl: './edicao-tarefa.html',
-      styleUrl: './edicao-tarefa.scss',
+      templateUrl: './edicao-produto.html',
+      styleUrl: './edicao-produto.scss',
     })
-    export class EdicaoTarefa {
+    export class EdicaoProduto {
       [...]
 
       form = new FormGroup({
@@ -1193,12 +1184,12 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       });
 
       ngOnInit() {
-        this.tarefasService.getById(this.id).subscribe({
-          next: (tarefa) => {
+        this.produtosService.getById(this.id).subscribe({
+          next: (produto) => {
             this.form.patchValue({
-              titulo: tarefa.titulo,
-              descricao: tarefa.descricao,
-              concluida: tarefa.concluida,
+              titulo: produto.titulo,
+              descricao: produto.descricao,
+              concluida: produto.concluida,
             });
           },
         });
@@ -1207,9 +1198,9 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.html -->
+    <!-- src/app/features/produtos/pages/edicao-produto/edicao-produto.html -->
     <section>
-      <h2>Edição de tarefa</h2>
+      <h2>Edição de produto</h2>
 
       <form [formGroup]="form">
         <mat-form-field>
@@ -1223,7 +1214,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
         </mat-form-field>
 
         <div>
-          <button type="button" matButton="outlined" routerLink="/tarefas">Cancelar</button>
+          <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
           <button type="submit" matButton="filled">Salvar alterações</button>
         </div>
       </form>
@@ -1233,10 +1224,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Enviar atualização ao backend
 
     ```ts
-    // src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.ts
+    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
     import { Router } from '@angular/router';
 
-    export class EdicaoTarefa {
+    export class EdicaoProduto {
       ...
 
       private readonly router = inject(Router);
@@ -1244,9 +1235,9 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       salvar() {
         if (this.form.invalid) return;
 
-        this.tarefasService.update(this.id, this.form.getRawValue()).subscribe({
+        this.produtosService.update(this.id, this.form.getRawValue()).subscribe({
           next: () => {
-            this.router.navigateByUrl('/tarefas');
+            this.router.navigateByUrl('/produtos');
           },
         });
       }
@@ -1254,7 +1245,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.html -->
+    <!-- src/app/features/produtos/pages/edicao-produto/edicao-produto.html -->
     <section>
       [...]
 
@@ -1265,16 +1256,16 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Voltar para a listagem
 
     ```ts
-    // src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.ts
-    export class EdicaoTarefa {
+    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
+    export class EdicaoProduto {
       [...]
 
       salvar() {
         if (this.form.invalid) return;
 
-        this.tarefasService.update(this.id, this.form.getRawValue()).subscribe({
+        this.produtosService.update(this.id, this.form.getRawValue()).subscribe({
           next: () => {
-            this.router.navigateByUrl('/tarefas');
+            this.router.navigateByUrl('/produtos');
           },
         });
       }
@@ -1287,26 +1278,26 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ### 16. CRUD funcional — remoção
 
-- Deletar tarefa
+- Deletar produto
   - [ ] Criar ação de remoção
 
     ```ts
-    // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
-    export class ListagemTarefas {
+    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+    export class ListagemProdutos {
       [...]
 
-      removerTarefa(id: number) {
-        console.log('Remover tarefa', id);
+      removerProduto(id: number) {
+        console.log('Remover produto', id);
       }
     }
     ```
 
     ```html
-    <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
     <section>
       [...]
 
-      <button matButton="outlined" (click)="removerTarefa(tarefa.id)">Remover</button>
+      <button matButton="outlined" (click)="removerProduto(produto.id)">Remover</button>
 
       [...]
     </section>
@@ -1315,12 +1306,12 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Enviar `DELETE`
 
     ```ts
-    // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
-    export class ListagemTarefas {
+    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+    export class ListagemProdutos {
       [...]
 
-      removerTarefa(id: number) {
-        this.tarefasService.remove(id).subscribe();
+      removerProduto(id: number) {
+        this.produtosService.remove(id).subscribe();
       }
     }
     ```
@@ -1328,15 +1319,15 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Atualizar a lista após remover
 
     ```ts
-    // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
-    export class ListagemTarefas {
+    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+    export class ListagemProdutos {
       [...]
 
-      removerTarefa(id: number) {
-        this.tarefasService.remove(id).subscribe({
+      removerProduto(id: number) {
+        this.produtosService.remove(id).subscribe({
           next: () => {
-            this.tarefas.update((tarefas) =>
-              tarefas.filter((tarefa) => tarefa.id !== id),
+            this.produtos.update((produtos) =>
+              produtos.filter((produto) => produto.id !== id),
             );
           },
         });
@@ -1433,7 +1424,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   ```html
   <!-- src/app/shared/components/cabecalho/cabecalho.html -->
   <mat-toolbar class="cabecalho">
-    <span>Lista de Tarefas</span>
+    <span>Lista de Produtos</span>
   </mat-toolbar>
   ```
 
@@ -1450,7 +1441,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Padronizar a página de listagem com espaçamento e largura útil
 
   ```scss
-  /* src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.scss */
+  /* src/app/features/produtos/pages/listagem-produtos/listagem-produtos.scss */
   :host {
     display: block;
   }
@@ -1484,38 +1475,38 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Ajustar o template da listagem para usar a estrutura visual
 
   ```html
-  <!-- src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.html -->
+  <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
   <section>
-    <h2>Tarefas</h2>
+    <h2>Produtos</h2>
 
     <mat-form-field>
-      <mat-label>Pesquisar tarefa</mat-label>
+      <mat-label>Pesquisar produto</mat-label>
       <input matInput placeholder="Ex.: estudar para prova" />
     </mat-form-field>
 
     <div class="acoes-topo">
-      <button type="button" matButton="filled" routerLink="/tarefas/criacao">Nova tarefa</button>
+      <button type="button" matButton="filled" routerLink="/produtos/criacao">Nova produto</button>
     </div>
 
     <div class="lista-cards">
       @if (carregando()) {
-      <p>Carregando tarefas...</p>
+      <p>Carregando produtos...</p>
       } @else if (erro()) {
       <p>{{ erro() }}</p>
-      } @else { @for (tarefa of tarefas(); track tarefa.id) {
+      } @else { @for (produto of produtos(); track produto.id) {
       <mat-card>
         <mat-card-header>
-          <mat-card-title>{{ tarefa.titulo }}</mat-card-title>
-          <mat-card-subtitle>{{ tarefa.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
+          <mat-card-title>{{ produto.titulo }}</mat-card-title>
+          <mat-card-subtitle>{{ produto.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
-          <p>{{ tarefa.descricao }}</p>
+          <p>{{ produto.descricao }}</p>
         </mat-card-content>
 
         <mat-card-actions>
-          <button matButton="filled" [routerLink]="['/tarefas/edicao', tarefa.id]">Editar</button>
-          <button matButton="outlined" (click)="removerTarefa(tarefa.id)">Remover</button>
+          <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
+          <button matButton="outlined" (click)="removerProduto(produto.id)">Remover</button>
         </mat-card-actions>
       </mat-card>
       } }
@@ -1523,10 +1514,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   </section>
   ```
 
-- [ ] Padronizar criação e edição com o mesmo layout de formulário
+- [ ] Padronizar registro e edição com o mesmo layout de formulário
 
   ```scss
-  /* usar o mesmo padrão em criacao-tarefa.scss e edicao-tarefa.scss */
+  /* usar o mesmo padrão em criacao-produto.scss e edicao-produto.scss */
   :host {
     display: block;
   }
@@ -1553,17 +1544,17 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-- [ ] Ajustar o template da criação
+- [ ] Ajustar o template do registro
 
   ```html
-  <!-- src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.html -->
+  <!-- src/app/features/produtos/pages/criacao-produto/criacao-produto.html -->
   <section>
-    <h2>Criação de tarefa</h2>
+    <h2>Criação de produto</h2>
 
     <form [formGroup]="form" (ngSubmit)="salvar()">
       <mat-form-field>
         <mat-label>Título</mat-label>
-        <input matInput formControlName="titulo" placeholder="Digite o título da tarefa" />
+        <input matInput formControlName="titulo" placeholder="Digite o título da produto" />
       </mat-form-field>
 
       <mat-form-field>
@@ -1571,12 +1562,12 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
         <textarea
           matInput
           formControlName="descricao"
-          placeholder="Digite uma descrição para a tarefa"
+          placeholder="Digite uma descrição para a produto"
         ></textarea>
       </mat-form-field>
 
       <div class="acoes-formulario">
-        <button type="button" matButton="outlined" routerLink="/tarefas">Cancelar</button>
+        <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
         <button type="submit" matButton="filled">Salvar</button>
       </div>
     </form>
@@ -1586,9 +1577,9 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Ajustar o template da edição
 
   ```html
-  <!-- src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.html -->
+  <!-- src/app/features/produtos/pages/edicao-produto/edicao-produto.html -->
   <section>
-    <h2>Edição de tarefa</h2>
+    <h2>Edição de produto</h2>
 
     <form [formGroup]="form" (ngSubmit)="salvar()">
       <mat-form-field>
@@ -1602,7 +1593,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       </mat-form-field>
 
       <div class="acoes-formulario">
-        <button type="button" matButton="outlined" routerLink="/tarefas">Cancelar</button>
+        <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
         <button type="submit" matButton="filled">Salvar alterações</button>
       </div>
     </form>
@@ -1615,29 +1606,29 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] formulários com largura boa
   - [ ] cards com espaçamento consistente
   - [ ] ações alinhadas
-  - [ ] aparência coerente entre listagem, criação e edição
+  - [ ] aparência coerente entre listagem, registro e edição
 
 ## FASE 6. Aprimoramentos nível 1
 
-### 18. Reutilizar a base do formulário entre criação e edição
+### 18. Reutilizar a base do formulário entre registro e edição
 
 - [ ] Criar a fábrica do formulário
 
   ```bash
-  npx ng g i features/tarefas/forms/tarefa-form
+  npx ng g i features/produtos/forms/produto-form
   ```
 
   ```ts
-  // src/app/features/tarefas/forms/tarefa-form.ts
+  // src/app/features/produtos/forms/produto-form.ts
   import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-  export type TarefaForm = FormGroup<{
+  export type ProdutoForm = FormGroup<{
     titulo: FormControl<string>;
     descricao: FormControl<string>;
     concluida: FormControl<boolean>;
   }>;
 
-  export function criarTarefaForm(): TarefaForm {
+  export function criarProdutoForm(): ProdutoForm {
     return new FormGroup({
       titulo: new FormControl('', {
         nonNullable: true,
@@ -1654,31 +1645,31 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-- [ ] Usar a fábrica na criação
+- [ ] Usar a fábrica no registro
 
   ```ts
-  // src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.ts
-  import { criarTarefaForm } from '@features/tarefas/forms/tarefa-form';
+  // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
+  import { criarProdutoForm } from '@features/produtos/forms/produto-form';
 
-  export class CriacaoTarefa {
-    form = criarTarefaForm();
+  export class CriacaoProduto {
+    form = criarProdutoForm();
   }
   ```
 
 - [ ] Usar a fábrica na edição
 
   ```ts
-  // src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.ts
-  import { criarTarefaForm } from '@features/tarefas/forms/tarefa-form';
+  // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
+  import { criarProdutoForm } from '@features/produtos/forms/produto-form';
 
-  export class EdicaoTarefa {
-    form = criarTarefaForm();
+  export class EdicaoProduto {
+    form = criarProdutoForm();
   }
   ```
 
 ### 19. Adicionar validação visual e desabilitar ações inválidas
 
-- [ ] Exibir mat-error no formulário de criação e edição
+- [ ] Exibir mat-error no formulário de registro e edição
 
   ```html
   <mat-form-field>
@@ -1700,13 +1691,13 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   </mat-form-field>
   ```
 
-- [ ] Desabilitar o botão de salvar na criação quando inválido ou enviando
+- [ ] Desabilitar o botão de salvar no registro quando inválido ou enviando
 
   ```ts
-  // src/app/features/tarefas/pages/criacao-tarefa/criacao-tarefa.ts
+  // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
   import { inject, signal } from '@angular/core';
 
-  export class CriacaoTarefa {
+  export class CriacaoProduto {
     enviando = signal(false);
     erro = signal('');
 
@@ -1716,15 +1707,15 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       this.enviando.set(true);
       this.erro.set('');
 
-      this.tarefasService
+      this.produtosService
         .criar({
           ...this.form.getRawValue(),
           concluida: false,
         })
         .subscribe({
-          next: () => this.router.navigateByUrl('/tarefas'),
+          next: () => this.router.navigateByUrl('/produtos'),
           error: () => {
-            this.erro.set('Não foi possível criar a tarefa.');
+            this.erro.set('Não foi possível criar a produto.');
             this.enviando.set(false);
           },
         });
@@ -1734,7 +1725,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
   ```html
   <div class="acoes-formulario">
-    <button type="button" matButton="outlined" routerLink="/tarefas" [disabled]="enviando()">
+    <button type="button" matButton="outlined" routerLink="/produtos" [disabled]="enviando()">
       Cancelar
     </button>
 
@@ -1749,8 +1740,8 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Desabilitar o botão de salvar na edição quando inválido ou enviando
 
   ```ts
-  // src/app/features/tarefas/pages/edicao-tarefa/edicao-tarefa.ts
-  export class EdicaoTarefa {
+  // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
+  export class EdicaoProduto {
     enviando = signal(false);
     erro = signal('');
 
@@ -1760,10 +1751,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       this.enviando.set(true);
       this.erro.set('');
 
-      this.tarefasService.update(this.id, this.form.getRawValue()).subscribe({
-        next: () => this.router.navigateByUrl('/tarefas'),
+      this.produtosService.update(this.id, this.form.getRawValue()).subscribe({
+        next: () => this.router.navigateByUrl('/produtos'),
         error: () => {
-          this.erro.set('Não foi possível atualizar a tarefa.');
+          this.erro.set('Não foi possível atualizar a produto.');
           this.enviando.set(false);
         },
       });
@@ -1774,20 +1765,20 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Exibir erro de remoção na listagem
 
   ```ts
-  // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
+  // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
   erroRemocao = signal('');
 
-  removerTarefa(id: number) {
+  removerProduto(id: number) {
     this.erroRemocao.set('');
 
-    this.tarefasService.remove(id).subscribe({
+    this.produtosService.remove(id).subscribe({
       next: () => {
-        this.tarefas.update((tarefas) =>
-          tarefas.filter((tarefa) => tarefa.id !== id),
+        this.produtos.update((produtos) =>
+          produtos.filter((produto) => produto.id !== id),
         );
       },
       error: () => {
-        this.erroRemocao.set('Não foi possível remover a tarefa.');
+        this.erroRemocao.set('Não foi possível remover a produto.');
       },
     });
   }
@@ -1804,10 +1795,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Adicionar estado local na listagem
 
   ```ts
-  // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
+  // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
   import { computed, signal } from '@angular/core';
 
-  tarefas = signal<Tarefa[]>([]);
+  produtos = signal<Produto[]>([]);
   carregando = signal(true);
   erro = signal('');
   termoBusca = signal('');
@@ -1816,15 +1807,15 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Criar lista filtrada derivada
 
   ```ts
-  tarefasFiltradas = computed(() => {
+  produtosFiltradas = computed(() => {
     const termo = this.termoBusca().trim().toLowerCase();
 
-    if (!termo) return this.tarefas();
+    if (!termo) return this.produtos();
 
-    return this.tarefas().filter(
-      (tarefa) =>
-        tarefa.titulo.toLowerCase().includes(termo) ||
-        tarefa.descricao.toLowerCase().includes(termo),
+    return this.produtos().filter(
+      (produto) =>
+        produto.titulo.toLowerCase().includes(termo) ||
+        produto.descricao.toLowerCase().includes(termo),
     );
   });
   ```
@@ -1833,7 +1824,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
   ```html
   <mat-form-field>
-    <mat-label>Pesquisar tarefa</mat-label>
+    <mat-label>Pesquisar produto</mat-label>
     <input
       matInput
       [value]="termoBusca()"
@@ -1843,84 +1834,84 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   </mat-form-field>
   ```
 
-- [ ] Trocar a renderização da lista para tarefasFiltradas()
+- [ ] Trocar a renderização da lista para produtosFiltradas()
 
 ```ts
 @if (carregando()) {
 
-<p>Carregando tarefas...</p>
+<p>Carregando produtos...</p>
 } @else if (erro()) {
 <p>{{ erro() }}</p>
-} @else if (tarefasFiltradas().length === 0) {
-<p>Nenhuma tarefa encontrada.</p>
+} @else if (produtosFiltradas().length === 0) {
+<p>Nenhuma produto encontrada.</p>
 } @else {
-@for (tarefa of tarefasFiltradas(); track tarefa.id) {
+@for (produto of produtosFiltradas(); track produto.id) {
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ tarefa.titulo }}</mat-card-title>
-    <mat-card-subtitle>{{ tarefa.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
+    <mat-card-title>{{ produto.titulo }}</mat-card-title>
+    <mat-card-subtitle>{{ produto.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
-    <p>{{ tarefa.descricao }}</p>
+    <p>{{ produto.descricao }}</p>
   </mat-card-content>
 
   <mat-card-actions>
-    <button matButton="filled" [routerLink]="['/tarefas/edicao', tarefa.id]">Editar</button>
-    <button matButton="outlined" (click)="removerTarefa(tarefa.id)">Remover</button>
+    <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
+    <button matButton="outlined" (click)="removerProduto(produto.id)">Remover</button>
   </mat-card-actions>
 </mat-card>
 }
 }
 ```
 
-### 21. Criar componente reutilizável de lista de tarefas
+### 21. Criar componente reutilizável de lista de produtos
 
 - [ ] Criar componente da lista
 
   ```bah
-  npx ng g c features/tarefas/components/lista-tarefas
+  npx ng g c features/produtos/components/lista-produtos
   ```
 
 - [ ] Implementar input() e output()
 
   ```ts
-  // src/app/features/tarefas/components/lista-tarefas/lista-tarefas.ts
+  // src/app/features/produtos/components/lista-produtos/lista-produtos.ts
   import { Component, input, output } from '@angular/core';
   import { MatButtonModule } from '@angular/material/button';
   import { MatCardModule } from '@angular/material/card';
   import { RouterLink } from '@angular/router';
 
-  import { Tarefa } from '@shared/interfaces/tarefa';
+  import { Produto } from '@shared/interfaces/produto';
 
   @Component({
-    selector: 'app-lista-tarefas',
+    selector: 'app-lista-produtos',
     imports: [MatButtonModule, MatCardModule, RouterLink],
-    templateUrl: './lista-tarefas.html',
-    styleUrl: './lista-tarefas.scss',
+    templateUrl: './lista-produtos.html',
+    styleUrl: './lista-produtos.scss',
   })
-  export class ListaTarefas {
-    tarefas = input.required<Tarefa[]>();
+  export class ListaProdutos {
+    produtos = input.required<Produto[]>();
     remover = output<number>();
   }
   ```
 
   ```html
-  <!-- src/app/features/tarefas/components/lista-tarefas/lista-tarefas.html -->
-  @for (tarefa of tarefas(); track tarefa.id) {
+  <!-- src/app/features/produtos/components/lista-produtos/lista-produtos.html -->
+  @for (produto of produtos(); track produto.id) {
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ tarefa.titulo }}</mat-card-title>
-      <mat-card-subtitle>{{ tarefa.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
+      <mat-card-title>{{ produto.titulo }}</mat-card-title>
+      <mat-card-subtitle>{{ produto.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <p>{{ tarefa.descricao }}</p>
+      <p>{{ produto.descricao }}</p>
     </mat-card-content>
 
     <mat-card-actions>
-      <button matButton="filled" [routerLink]="['/tarefas/edicao', tarefa.id]">Editar</button>
-      <button matButton="outlined" (click)="remover.emit(tarefa.id)">Remover</button>
+      <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
+      <button matButton="outlined" (click)="remover.emit(produto.id)">Remover</button>
     </mat-card-actions>
   </mat-card>
   }
@@ -1929,28 +1920,28 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 - [ ] Usar o componente na listagem
 
   ```ts
-  // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
-  import { ListaTarefas } from '@features/tarefas/components/lista-tarefas/lista-tarefas';
+  // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+  import { ListaProdutos } from '@features/produtos/components/lista-produtos/lista-produtos';
 
   @Component({
   imports: [
   ...,
-  ListaTarefas,
+  ListaProdutos,
   ],
   })
-  export class ListagemTarefas {}
+  export class ListagemProdutos {}
   ```
 
   ```html
   @if (carregando()) {
 
-  <p>Carregando tarefas...</p>
+  <p>Carregando produtos...</p>
   } @else if (erro()) {
   <p>{{ erro() }}</p>
-  } @else if (tarefasFiltradas().length === 0) {
-  <p>Nenhuma tarefa encontrada.</p>
+  } @else if (produtosFiltradas().length === 0) {
+  <p>Nenhuma produto encontrada.</p>
   } @else {
-  <app-lista-tarefas [tarefas]="tarefasFiltradas()" (remover)="removerTarefa($event)" />
+  <app-lista-produtos [produtos]="produtosFiltradas()" (remover)="removerProduto($event)" />
   }
   ```
 
@@ -1983,20 +1974,20 @@ npx ng g p shared/pipes/resumir-texto
 - [ ] Usar o pipe no componente de lista
 
   ```ts
-  // src/app/features/tarefas/components/lista-tarefas/lista-tarefas.ts
+  // src/app/features/produtos/components/lista-produtos/lista-produtos.ts
   import { TitleCasePipe } from '@angular/common';
   import { ResumirTexto } from '@shared/pipes/resumir-texto';
 
   @Component({
     imports: [MatButtonModule, MatCardModule, RouterLink, TitleCasePipe, ResumirTexto],
   })
-  export class ListaTarefas {}
+  export class ListaProdutos {}
   ```
 
   ```html
-  <mat-card-title>{{ tarefa.titulo | titlecase }}</mat-card-title>
+  <mat-card-title>{{ produto.titulo | titlecase }}</mat-card-title>
 
-  <p>{{ tarefa.descricao | resumirTexto: 60 }}</p>
+  <p>{{ produto.descricao | resumirTexto: 60 }}</p>
   ```
 
 ### 23. Substituir a remoção direta por modal de confirmação
@@ -2022,10 +2013,10 @@ npx ng g p shared/pipes/resumir-texto
 
   ```html
   <!-- src/app/shared/components/modal-confirmacao/modal-confirmacao.html -->
-  <h2 mat-dialog-title>Remover tarefa</h2>
+  <h2 mat-dialog-title>Remover produto</h2>
 
   <mat-dialog-content>
-    <p>Tem certeza que deseja remover a tarefa "{{ data.titulo }}"?</p>
+    <p>Tem certeza que deseja remover a produto "{{ data.titulo }}"?</p>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
@@ -2037,21 +2028,21 @@ npx ng g p shared/pipes/resumir-texto
 - [ ] Abrir o modal a partir da listagem
 
   ```ts
-  // src/app/features/tarefas/pages/listagem-tarefas/listagem-tarefas.ts
+  // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
   import { MatDialog } from '@angular/material/dialog';
   import { ModalConfirmacao } from '@shared/components/modal-confirmacao/modal-confirmacao';
 
-  export class ListagemTarefas {
+  export class ListagemProdutos {
     private readonly dialog = inject(MatDialog);
 
-    abrirModalRemocao(tarefa: Tarefa) {
+    abrirModalRemocao(produto: Produto) {
       const dialogRef = this.dialog.open(ModalConfirmacao, {
-        data: { titulo: tarefa.titulo },
+        data: { titulo: produto.titulo },
       });
 
       dialogRef.afterClosed().subscribe((confirmou) => {
         if (!confirmou) return;
-        this.removerTarefa(tarefa.id);
+        this.removerProduto(produto.id);
       });
     }
   }
@@ -2059,20 +2050,20 @@ npx ng g p shared/pipes/resumir-texto
 
 - [ ] Ligar o botão de remover ao modal
 
-Se estiver usando o componente de lista, troque o output() para emitir a tarefa inteira:
+Se estiver usando o componente de lista, troque o output() para emitir a produto inteira:
 
 ```ts
-remover = output<Tarefa>();
+remover = output<Produto>();
 ```
 
 ```html
-<button matButton="outlined" (click)="remover.emit(tarefa)">Remover</button>
+<button matButton="outlined" (click)="remover.emit(produto)">Remover</button>
 ```
 
 E na página:
 
 ```html
-<app-lista-tarefas [tarefas]="tarefasFiltradas()" (remover)="abrirModalRemocao($event)" />
+<app-lista-produtos [produtos]="produtosFiltradas()" (remover)="abrirModalRemocao($event)" />
 ```
 
 ## FASE 7. Aprimoramentos nível 2
@@ -2082,16 +2073,16 @@ E na página:
 - [ ] Criar resolver funcional
 
   ```ts
-  // src/app/features/tarefas/resolvers/tarefa.resolver.ts
+  // src/app/features/produtos/resolvers/produto.resolver.ts
   import { ResolveFn } from '@angular/router';
   import { inject } from '@angular/core';
 
-  import { TarefasService } from '@core/services/tarefas.service';
+  import { ProdutosService } from '@core/services/produtos.service';
 
-  export const tarefaResolver: ResolveFn<any> = (route) => {
-    const tarefasService = inject(TarefasService);
+  export const produtoResolver: ResolveFn<any> = (route) => {
+    const produtosService = inject(ProdutosService);
     const id = Number(route.paramMap.get('id'));
-    return tarefasService.getById(id);
+    return produtosService.getById(id);
   };
   ```
 
@@ -2100,12 +2091,12 @@ E na página:
   ```ts
   // src/app/app.routes.ts
   {
-  path: 'tarefas/edicao/:id',
+  path: 'produtos/edicao/:id',
   loadComponent: () =>
-  import('./features/tarefas/pages/edicao-tarefa/edicao-tarefa')
-  .then((m) => m.EdicaoTarefa),
+  import('./features/produtos/pages/edicao-produto/edicao-produto')
+  .then((m) => m.EdicaoProduto),
   resolve: {
-  tarefa: tarefaResolver,
+  produto: produtoResolver,
   },
   }
   ```
@@ -2128,15 +2119,15 @@ E na página:
   .pipe(
   debounceTime(300),
   distinctUntilChanged(),
-  switchMap((termo) => this.tarefasService.getAll(termo)),
+  switchMap((termo) => this.produtosService.getAll(termo)),
   )
-  .subscribe((tarefas) => {
-  this.tarefas.set(tarefas);
+  .subscribe((produtos) => {
+  this.produtos.set(produtos);
   this.carregando.set(false);
   });
 
-  this.tarefasService.getAll().subscribe((tarefas) => {
-  this.tarefas.set(tarefas);
+  this.produtosService.getAll().subscribe((produtos) => {
+  this.produtos.set(produtos);
   this.carregando.set(false);
   });
   }
@@ -2164,7 +2155,7 @@ E na página:
 - [ ] Melhorar visual dos cards
 
   ```scss
-  /_ src/app/features/tarefas/components/lista-tarefas/lista-tarefas.scss _/ :host {
+  /_ src/app/features/produtos/components/lista-produtos/lista-produtos.scss _/ :host {
     display: grid;
     gap: 16px;
   }

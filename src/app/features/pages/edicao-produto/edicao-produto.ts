@@ -5,9 +5,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-edicao-produto',
-  imports: [MatFormFieldModule, MatSlideToggleModule, MatButtonModule, MatInputModule],
+  imports: [MatFormFieldModule, MatSlideToggleModule, MatButtonModule, MatInputModule, RouterLink],
   templateUrl: './edicao-produto.html',
   styleUrl: './edicao-produto.scss',
 })
