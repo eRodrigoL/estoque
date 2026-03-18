@@ -1,0 +1,92 @@
+
+# ==============================
+# ESTRUTURA BASE
+# ==============================
+#
+# <cabeçalho>
+#
+# <corpo>
+#
+# <rodapé>
+#
+# ==============================
+# CABEÇALHO (OBRIGATÓRIO)
+# ==============================
+# <tipo>(<escopo>)<!>: <resumo no imperativo>
+#
+# 1) <tipo>  (obrigatório)
+#    Define a natureza da mudança, conforme Conventional Commits:
+#
+#    feat     -> nova funcionalidade
+#    fix      -> correção de bug
+#    docs     -> alterações somente em documentação
+#    style    -> formatação (espaços, quebras de linha, etc.), sem mudar lógica
+#    refactor -> refatoração interna sem mudar comportamento observável
+#    perf     -> mudança que melhora performance
+#    test     -> inclusão/ajuste de testes automatizados
+#    build    -> mudanças em build, dependências, empacotamento
+#    ci       -> mudanças em pipelines de integração contínua (CI)
+#    chore    -> tarefas de manutenção que não afetam src/test (scripts, configs)
+#    revert   -> desfaz um commit anterior
+#
+# 2) (<escopo>)  (opcional, mas recomendado)
+#    Contextualiza a área afetada.
+#
+#    Ex.: (api), (auth), (login), (checkout), (docs), (infra)
+#
+# 3) <!>  (opcional)
+#    Indica BREAKING CHANGE (quebra de compatibilidade).
+#    Deve ser usado quando a alteração exige ação do consumidor do código.
+#
+#    Ex.: feat(api)!: muda contrato de /api/pedidos
+#
+# 4) :  (separador obrigatório)
+#    Delimita o cabeçalho antes do resumo.
+#
+# 5) <resumo no imperativo>  (obrigatório)
+#    Descreve de forma curta e direta o que o commit faz.
+#
+#    Características:
+#      - verbo no imperativo: "adiciona", "corrige", "atualiza", "remove"...
+#      - sem ponto final
+#      - idealmente até ~50 caracteres
+#
+# Ex.: feat(api): adiciona endpoint de pedidos
+#
+# ==============================
+# CORPO DO COMMIT (OPCIONAL)
+# ==============================
+#
+# - Explica o "como" e o "porquê" da mudança.
+# - Pode conter bullets, detalhes técnicos, decisões de design.
+# - Separado do cabeçalho por uma linha em branco.
+#
+# ==============================
+# RODAPÉ (OPCIONAL)
+# ==============================
+#
+# Usos principais:
+#   - BREAKING CHANGE: descrição clara da quebra de compatibilidade
+#   - Refs: número ou links para issues, tarefas, docs, etc.
+#
+# ==============================
+# EXEMPLO COMPLETO DE COMMIT
+# ==============================
+# Cabeçalho:
+#   feat(api)!: adiciona endpoint de pedidos
+#
+# Corpo:
+#   - implementa rota GET /api/pedidos
+#   - valida token JWT antes de consultar o banco
+#
+# Rodapé:
+#   BREAKING CHANGE: altera formato da resposta de /api/pedidos.
+#   Refs: #123, PROJ-456, DOC-arquitetura-backend
+#
+#
+# ==============================
+# ALTERAR O TEMPLATE DE COMMITS
+# ==============================
+# 1 - Crie na raiz do repositório o arquivo ".git-commit-template.txt"
+# 2 - Preencha o arquivo com o template acima
+# 3 - Excute o comando "git config commit.template .git-commit-template.txt" na raiz do repositório para alterar o template apenas no repositório em questão e apenas na máquina local.
