@@ -167,7 +167,7 @@
 - [ ] Adicionar `mock/db.json` no `.gitignore`
 
 - [ ] Criar um script para recriar o banco local a partir da matriz
-  - Exemplo: `scripts/reset-db.mjs`
+  - Exemplo: `scripts/preparar-db-json.mjs`
 
     ```mjs
     //            ┌── copyFileSync ➡️ função do Node usada para copiar arquivos de forma síncrona
@@ -208,9 +208,8 @@
     "scripts": {
       "start": "ng serve",
       "start:db": "node ./scripts/preparar-db-json.mjs",
-      "preserver": "npm run start:db",
       "server": "json-server --watch mock/db.json --port 3000",
-      "dev": "concurrently \"npm:start\" \"npm:server\""
+      "dev": "npm run start:db &&concurrently \"npm:start\" \"npm:server\"",
     }
   }
   ```
@@ -220,7 +219,7 @@
 
   ```json
   {
-    "produtoss": []
+    "produtos": []
   }
   ```
 
@@ -309,19 +308,19 @@ npx ng add @angular/material
     - [ ] Criar página de listagem
 
       ```bash
-      npx ng g c features/pages/listagem-produtoss
+      npx ng g c features/pages/listagem-produtos
       ```
 
     - [ ] Criar página de criação
 
       ```bash
-      npx ng g c features/pages/criacao-produtos
+      npx ng g c features/pages/registro-produto
       ```
 
     - [ ] Criar página de edição
 
       ```bash
-      npx ng g c features/pages/edicao-produtos
+      npx ng g c features/pages/edicao-produto
       ```
 
     - [ ] Criar componente cabecalho
