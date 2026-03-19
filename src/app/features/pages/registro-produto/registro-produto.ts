@@ -41,8 +41,6 @@ export class RegistroProduto {
   });
 
   salvar() {
-    console.log(this.form.getRawValue());
-
     if (this.form.invalid) return;
 
     this.produtosService

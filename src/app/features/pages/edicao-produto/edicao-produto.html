@@ -1,35 +1,35 @@
 <section>
   <h2>Edição do Produto</h2>
 
-  <form>
+  <form [formGroup]="form" (ngSubmit)="salvar()">
     <mat-form-field>
       <mat-label>Nome do Produto</mat-label>
-      <input matInput placeholder="Digite o nome do produto" />
+      <input matInput placeholder="Digite o nome do produto" formControlName="nome" />
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Categoria do Produto</mat-label>
-      <input matInput placeholder="Digite a categoria do produto" />
+      <input matInput placeholder="Digite a categoria do produto" formControlName="categoria" />
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Preço do Produto</mat-label>
-      <input matInput placeholder="Digite o preço do produto" />
+      <input matInput placeholder="Digite o preço do produto" formControlName="preco" />
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Quantidade no Estoque</mat-label>
-      <input matInput placeholder="Digite quantidade no estoque" />
+      <input matInput placeholder="Digite quantidade no estoque" formControlName="qtEstoque" />
     </mat-form-field>
 
     <div>
       <label>Reposição já foi solicitada?</label>
-      <mat-slide-toggle>Sim</mat-slide-toggle>
+      <mat-slide-toggle formControlName="reposicaoSolicitada"></mat-slide-toggle>
     </div>
 
     <mat-form-field>
       <mat-label>Observações</mat-label>
-      <input matInput placeholder="Opcionais" />
+      <input matInput placeholder="Opcionais" formControlName="observacoes" />
     </mat-form-field>
 
     <div>

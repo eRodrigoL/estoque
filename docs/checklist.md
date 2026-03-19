@@ -472,7 +472,7 @@ npx ng add @angular/material
 
         <div>
           <label>Reposição já foi solicitada?</label>
-          <mat-slide-toggle>Sim</mat-slide-toggle>
+          <mat-slide-toggle></mat-slide-toggle>
         </div>
 
         <mat-form-field>
@@ -734,7 +734,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```ts
     // src/app/shared/interfaces/produto.ts
     export interface Produto {
-      id: number;
+      id: string;
       nome: string;
       categoria: string;
       preco: string;
@@ -839,7 +839,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     export class ProdutosService {
       [...]
 
-      getById(id: number | string) {
+      getById(id: string) {
         return this.http.get<Produto>(`${this.apiUrl}/${id}`);
       }
     }
@@ -872,7 +872,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     export class ProdutosService {
       [...]
 
-      update(id: number, payload: PayloadProduto) {
+      update(id: string, payload: PayloadProduto) {
         return this.http.put<Produto>(`${this.apiUrl}/${id}`, payload);
       }
     }
@@ -883,7 +883,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
     ```ts
     // src/app/core/services/produtos.service.ts
-    remove(id: number) {
+    remove(id: string) {
       return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
     ```
@@ -908,10 +908,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```ts
     // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
     import { [...], inject, signal } from '@angular/core';
-
     import { Produto } from '@shared/interfaces/produto';
     import { ProdutosService } from '@core/services/produtos.service';
 
+    [...]
     export class ListagemProdutos {
       private readonly produtosService = inject(ProdutosService);
 
@@ -1121,8 +1121,9 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Fazer submit simples no front
 
     ```ts
-    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
-    export class CriacaoProduto {
+    // src/app/features/pages/registro-produto/registro-produto.ts
+    [...]
+    export class RegistroProduto {
       [...]
 
       salvar() {
@@ -1132,24 +1133,25 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/produtos/pages/criacao-produto/criacao-produto.html -->
+    <!-- src/app/features/pages/registro-produto/registro-produto.html -->
     <section>
       [...]
 
-      <form [formGroup]="form" (ngSubmit)="salvar()">...</form>
+      <form [formGroup]="form" (ngSubmit)="salvar()">[...]</form>
     </section>
     ```
 
   - [ ] Trocar dados fixos do formulário por envio real
 
     ```ts
-    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
+    // src/app/features/pages/registro-produto/registro-produto.ts
     import { [...], inject } from '@angular/core';
-    import { Router } from '@angular/router';
+    import { [...], Router } from '@angular/router';
 
     import { ProdutosService } from '@core/services/produtos.service';
 
-    export class CriacaoProduto {
+    [...]
+    export class RegistroProduto {
       private readonly router = inject(Router);
       private readonly produtosService = inject(ProdutosService);
 
@@ -1158,10 +1160,11 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       salvar() {
         if (this.form.invalid) return;
 
-        this.produtosService.criar({
-          ...this.form.getRawValue(),
-          concluida: false,
-        }).subscribe();
+        this.produtosService
+          .create({
+            ...this.form.getRawValue(),
+          })
+          .subscribe();
       }
     }
     ```
@@ -1169,22 +1172,14 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Navegar de volta para a listagem após criar
 
     ```ts
-    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
-    export class CriacaoProduto {
-      [...]
-
-      salvar() {
-        if (this.form.invalid) return;
-
-        this.produtosService.criar({
-          ...this.form.getRawValue(),
-          concluida: false,
-        }).subscribe({
+    // src/app/features/pages/registro-produto/registro-produto.ts
+    [...]
+    salvar() {
+      [...].subscribe({
           next: () => {
             this.router.navigateByUrl('/produtos');
           },
         });
-      }
     }
     ```
 
@@ -1196,7 +1191,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Navegar para edição com `id`
 
     ```html
-    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
+    <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
     <section>
       [...]
 
@@ -1209,25 +1204,126 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     </section>
     ```
 
+  - [ ] Capturar `id` da rota
+
+    ```ts
+    // src/app/features/pages/edicao-produto/edicao-produto.ts
+    import { [...], inject } from '@angular/core';
+    import { ActivatedRoute } from '@angular/router';
+
+    [...]
+    export class EdicaoProduto {
+      private readonly route = inject(ActivatedRoute);
+
+      readonly id = Number(this.route.snapshot.paramMap.get('id'));
+    }
+    ```
+
+  - [ ] Montar formulário com Reactive Forms
+
+    ```ts
+    [...]
+    import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+    @Component({
+      // selector: 'app-edicao-produto',
+      imports: [
+        [...]
+        ReactiveFormsModule,
+      ],
+      // templateUrl: './edicao-produto.html',
+      // styleUrl: './edicao-produto.scss',
+    })
+    export class EdicaoProduto {
+      [...]
+
+      form = new FormGroup({
+        nome: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        categoria: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        preco: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        qtEstoque: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
+        observacoes: new FormControl('', { nonNullable: true }),
+        reposicaoSolicitada: new FormControl(false, { nonNullable: true }),
+      });
+    }
+    ```
+
+    ```html
+    <!-- src/app/features/pages/edicao-produto/edicao-produto.html -->
+    <section>
+      [...]
+
+      <form [formGroup]="form">
+        <mat-form-field>
+          <mat-label>Nome do Produto</mat-label>
+          <input [...] formControlName="nome" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Categoria do Produto</mat-label>
+          <input [...] formControlName="categoria" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Preço do Produto</mat-label>
+          <input [...] formControlName="preco" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Quantidade no Estoque</mat-label>
+          <input [...]formControlName="qtEstoque" />
+        </mat-form-field>
+
+        <div>
+          <label>Reposição já foi solicitada?</label>
+          <mat-slide-toggle formControlName="reposicaoSolicitada"></mat-slide-toggle>
+        </div>
+
+        <mat-form-field>
+          <mat-label>Observações</mat-label>
+          <input [...] formControlName="observacoes" />
+        </mat-form-field>
+
+        [...]
+      </form>
+    </section>
+    ```
+
+  - [ ] Fazer submit simples no front
+
+    ```ts
+    // src/app/features/pages/edicao-produto/edicao-produto.ts
+    [...]
+    export class RegistroProduto {
+      [...]
+
+      salvar() {
+        console.log(this.form.getRawValue());
+      }
+    }
+    ```
+
+    ```html
+    <!-- src/app/features/pages/edicao-produto/edicao-produto.html -->
+    <section>
+      [...]
+
+      <form [formGroup]="form" (ngSubmit)="salvar()">[...]</form>
+    </section>
+    ```
+
   - [ ] Buscar produto por `id`
 
     ```ts
     // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
-    import { [...], inject } from '@angular/core';
-    import { ActivatedRoute, RouterLink } from '@angular/router';
+    [...]
     import { ProdutosService } from '@core/services/produtos.service';
 
-    @Component({
-      selector: 'app-edicao-produto',
-      imports: [...],
-      templateUrl: './edicao-produto.html',
-      styleUrl: './edicao-produto.scss',
-    })
+    [...]
     export class EdicaoProduto {
-      private readonly route = inject(ActivatedRoute);
       private readonly produtosService = inject(ProdutosService);
 
-      readonly id = Number(this.route.snapshot.paramMap.get('id'));
+      [...]
 
       ngOnInit() {
         this.produtosService.getById(this.id).subscribe();
@@ -1238,44 +1334,21 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Preencher formulário com dados reais
 
     ```ts
-    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
-    import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-    import { MatInputModule } from '@angular/material/input';
-
-    @Component({
-      selector: 'app-edicao-produto',
-      imports: [
-        [...],
-        ReactiveFormsModule,
-        MatInputModule,
-      ],
-      templateUrl: './edicao-produto.html',
-      styleUrl: './edicao-produto.scss',
-    })
+    // src/app/features/pages/edicao-produto/edicao-produto.ts
+    [...]
     export class EdicaoProduto {
       [...]
-
-      form = new FormGroup({
-        titulo: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required],
-        }),
-        descricao: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required],
-        }),
-        concluida: new FormControl(false, {
-          nonNullable: true,
-        }),
-      });
 
       ngOnInit() {
         this.produtosService.getById(this.id).subscribe({
           next: (produto) => {
             this.form.patchValue({
-              titulo: produto.titulo,
-              descricao: produto.descricao,
-              concluida: produto.concluida,
+              nome: produto.nome,
+              categoria: produto.categoria,
+              preco: produto.preco,
+              qtEstoque: produto.qtEstoque,
+              observacoes: produto.observacoes,
+              reposicaoSolicitada: produto.reposicaoSolicitada,
             });
           },
         });
@@ -1283,78 +1356,41 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     }
     ```
 
-    ```html
-    <!-- src/app/features/produtos/pages/edicao-produto/edicao-produto.html -->
-    <section>
-      <h2>Edição de produto</h2>
-
-      <form [formGroup]="form">
-        <mat-form-field>
-          <mat-label>Título</mat-label>
-          <input matInput formControlName="titulo" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Descrição</mat-label>
-          <textarea matInput formControlName="descricao"></textarea>
-        </mat-form-field>
-
-        <div>
-          <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
-          <button type="submit" matButton="filled">Salvar alterações</button>
-        </div>
-      </form>
-    </section>
-    ```
-
-  - [ ] Enviar atualização ao backend
+  - [ ] Trocar dados fixos do formulário por envio real de atualização
 
     ```ts
-    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
+    // src/app/features/pages/edicao-produto/edicao-produto.ts
     import { Router } from '@angular/router';
 
+    [...]
     export class EdicaoProduto {
-      ...
-
       private readonly router = inject(Router);
+
+      [...]
 
       salvar() {
         if (this.form.invalid) return;
 
-        this.produtosService.update(this.id, this.form.getRawValue()).subscribe({
-          next: () => {
-            this.router.navigateByUrl('/produtos');
-          },
-        });
+        this.produtosService
+          .update(this.id, {
+            ...this.form.getRawValue(),
+          })
+          .subscribe();
       }
     }
     ```
 
-    ```html
-    <!-- src/app/features/produtos/pages/edicao-produto/edicao-produto.html -->
-    <section>
-      [...]
-
-      <form [formGroup]="form" (ngSubmit)="salvar()">[...]</form>
-    </section>
-    ```
-
-  - [ ] Voltar para a listagem
+  - [ ] Navegar de volta para a listagem após criar
 
     ```ts
-    // src/app/features/produtos/pages/edicao-produto/edicao-produto.ts
-    export class EdicaoProduto {
-      [...]
-
-      salvar() {
-        if (this.form.invalid) return;
-
-        this.produtosService.update(this.id, this.form.getRawValue()).subscribe({
+    // src/app/features/pages/edicao-produto/edicao-produto.ts
+    [...]
+    salvar() {
+      [...].subscribe({
           next: () => {
             this.router.navigateByUrl('/produtos');
           },
         });
-      }
     }
     ```
 
@@ -1362,7 +1398,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ---
 
-### 16. CRUD funcional — remoção
+### 15. CRUD funcional — remoção
 
 - Deletar produto
   - [ ] Criar ação de remoção
@@ -1372,7 +1408,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     export class ListagemProdutos {
       [...]
 
-      removerProduto(id: number) {
+      removerProduto(id: string) {
         console.log('Remover produto', id);
       }
     }
@@ -1396,7 +1432,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     export class ListagemProdutos {
       [...]
 
-      removerProduto(id: number) {
+      removerProduto(id: string) {
         this.produtosService.remove(id).subscribe();
       }
     }
@@ -1409,7 +1445,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     export class ListagemProdutos {
       [...]
 
-      removerProduto(id: number) {
+      removerProduto(id: string) {
         this.produtosService.remove(id).subscribe({
           next: () => {
             this.produtos.update((produtos) =>
@@ -1425,7 +1461,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ## FASE 5. Estilização rudimentar
 
-### 17. Refinar interface com Angular Material e SCSS — nível rudimentar primeiro
+### 16. Refinar interface com Angular Material e SCSS — nível rudimentar primeiro
 
 > No Angular 21:
 >
@@ -1696,7 +1732,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ## FASE 6. Aprimoramentos nível 1
 
-### 18. Reutilizar a base do formulário entre registro e edição
+### 17. Reutilizar a base do formulário entre registro e edição
 
 - [ ] Criar a fábrica do formulário
 
@@ -1753,7 +1789,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-### 19. Adicionar validação visual e desabilitar ações inválidas
+### 18. Adicionar validação visual e desabilitar ações inválidas
 
 - [ ] Exibir mat-error no formulário de registro e edição
 
@@ -1854,7 +1890,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
   erroRemocao = signal('');
 
-  removerProduto(id: number) {
+  removerProduto(id: string) {
     this.erroRemocao.set('');
 
     this.produtosService.remove(id).subscribe({
@@ -1876,7 +1912,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-### 20. Adicionar busca local funcional com Signals e computed
+### 19. Adicionar busca local funcional com Signals e computed
 
 - [ ] Adicionar estado local na listagem
 
@@ -1951,7 +1987,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 }
 ```
 
-### 21. Criar componente reutilizável de lista de produtos
+### 20. Criar componente reutilizável de lista de produtos
 
 - [ ] Criar componente da lista
 
@@ -2031,7 +2067,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-### 22. Aplicar pipe para melhorar a visualização da lista
+### 21. Aplicar pipe para melhorar a visualização da lista
 
 - [ ] Criar pipe para resumir descrição
 
@@ -2076,7 +2112,7 @@ npx ng g p shared/pipes/resumir-texto
   <p>{{ produto.descricao | resumirTexto: 60 }}</p>
   ```
 
-### 23. Substituir a remoção direta por modal de confirmação
+### 21. Substituir a remoção direta por modal de confirmação
 
 - [ ] Criar o componente do modal
 
@@ -2154,7 +2190,7 @@ E na página:
 
 ## FASE 7. Aprimoramentos nível 2
 
-### 24. Melhorar a rota dinâmica da edição com resolver
+### 22. Melhorar a rota dinâmica da edição com resolver
 
 - [ ] Criar resolver funcional
 
@@ -2187,7 +2223,7 @@ E na página:
   }
   ```
 
-### 25. Melhorar a busca remota com RxJS, se sobrar tempo
+### 23. Melhorar a busca remota com RxJS, se sobrar tempo
 
 - [ ] Criar um Subject para busca
 
@@ -2236,7 +2272,7 @@ E na página:
   />
   ```
 
-### 26. Refinar o visual final da aplicação
+### 24. Refinar o visual final da aplicação
 
 - [ ] Melhorar visual dos cards
 

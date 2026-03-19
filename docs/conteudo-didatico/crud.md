@@ -92,8 +92,8 @@ Ler um único registro.
 ```ts
 //  ┌── getById(){} ➡️ nome do método
 //  │    ┌── id ➡️ nome do parâmetro
-//  │    │        ┌── : number | string ➡️ tipos aceitos para o identificador
-getById(id: number | string) {
+//  │    │        ┌── : string ➡️ tipos aceitos para o identificador
+getById(id: string) {
   return this.http.get<Tarefa>(`${this.apiUrl}/${id}`);
 //             |    │    |      │     │          └── id ➡️ identificador concatenado ao final da URL
 //             |    │    |      │     └── this.apiUrl ➡️ URL base da coleção
@@ -140,7 +140,7 @@ Atualizar um registro.
 //  │  │     ┌── : number ➡️ tipo esperado para o identificador
 //  │  │     |        ┌── payload ➡️ nome do segundo parâmetro
 //  │  │     |        │          ┌── : PayloadTarefa ➡️ tipo esperado para o dado enviado
-update(id: number, payload: PayloadTarefa) {
+update(id: string, payload: PayloadTarefa) {
   return this.http.put<Tarefa>(`${this.apiUrl}/${id}`, payload);
 //             |    |    │         │                         └── , payload ➡️ corpo enviado na atualização
 //             |    |    │         └── `${this.apiUrl}/${id}` ➡️ URL do item que será atualizado
@@ -164,7 +164,7 @@ Remover um registro.
 //  ┌── remove(){} ➡️ nome do método
 //  │   ┌── id ➡️ nome do parâmetro
 //  │   │    ┌── : number ➡️ tipo esperado para o identificador
-remove(id: number) {
+remove(id: string) {
   return this.http.delete<void>(`${this.apiUrl}/${id}`);
 //           |       |     │          │           └── id ➡️ identificador concatenado ao final da URL
 //           |       |     │          └── `${this.apiUrl}/${id}` ➡️ URL do item que será atualizado

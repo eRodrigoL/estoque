@@ -43,7 +43,7 @@ Neste exemplo, o fluxo usa:
 ```ts
 //                 ┌── nome da interface
 export interface Produto {
-  id: number;
+  id: string;
   campoExemplo2: string;
   campoExemplo1: boolean;
 } //     │          └── tipo do dado
@@ -260,15 +260,15 @@ export class ProdutosService {
     return this.http.get<Produto[]>(this.apiUrl);
   }
 
-  getById(id: number | string) {
+  getById(id: string | string) {
     return this.http.get<Produto>(`${this.apiUrl}/${id}`);
   }
 
-  update(id: number | string, payload: PayloadProduto) {
+  update(id: string | string, payload: PayloadProduto) {
     return this.http.put<Produto>(`${this.apiUrl}/${id}`, payload);
   }
 
-  remove(id: number | string) {
+  remove(id: string | string) {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
@@ -330,7 +330,7 @@ Buscar um único registro para preencher uma tela de edição ou detalhe.
 ### (7) Exemplo
 
 ```ts
-carregarProduto(id: number) {
+carregarProduto(id: string) {
 this.produtosService.getById(id).subscribe((produto) => {
 this.form.patchValue(produto);
 });
@@ -356,7 +356,7 @@ Enviar alterações de um registro já existente.
 ### (8) Exemplo
 
 ```ts
-salvarEdicao(id: number) {
+salvarEdicao(id: string) {
 if (this.form.invalid) {
 this.form.markAllAsTouched();
 return;
@@ -391,7 +391,7 @@ Remover um registro existente.
 ### (9) Exemplo
 
 ```ts
-removerProduto(id: number) {
+removerProduto(id: string) {
 this.produtosService.remove(id).subscribe(() => {
 this.produtos = this.produtos.filter((produto) => produto.id !== id);
 });

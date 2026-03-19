@@ -17,7 +17,7 @@ No TypeScript:
 ```ts
 //                 ┌── nome da interface
 export interface Produto {
-  id: number;
+  id: string;
   campoExemplo2: string;
   campoExemplo1: boolean;
 } //     │          └── tipo do dado

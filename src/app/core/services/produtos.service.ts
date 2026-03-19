@@ -18,10 +18,10 @@ export class ProdutosService {
       params = params.set('q', busca);
     }
 
-    return this.http.get<Produto[]>(this.apiUrl, { params }).pipe(delay(2000));
+    return this.http.get<Produto[]>(this.apiUrl, { params });
   }
 
-  getById(id: number | string) {
+  getById(id: string | string) {
     return this.http.get<Produto>(`${this.apiUrl}/${id}`);
   }
 
@@ -29,11 +29,11 @@ export class ProdutosService {
     return this.http.post<Produto>(this.apiUrl, payload);
   }
 
-  update(id: number, payload: PayloadProduto) {
+  update(id: string | string, payload: PayloadProduto) {
     return this.http.put<Produto>(`${this.apiUrl}/${id}`, payload);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

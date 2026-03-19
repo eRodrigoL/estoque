@@ -27,7 +27,7 @@ Entender o caminho completo do dado dentro da aplicação.
 //    ┌── removerTarefa(){} ➡️ método
 //    │       ┌── id ➡️ parâmetro
 //    │       │     ┌── : number ➡️ tipo
-removerTarefa(id: number) {
+removerTarefa(id: string) {
 
   //        ┌── this.tarefasService ➡️ propriedade da classe que guarda a instância do service
   //        │           ┌── .remove() ➡️ método do service responsável pela remoção
@@ -52,7 +52,7 @@ removerTarefa(id: number) {
 ### (1) Método no service
 
 ```ts
-remove(id: number) {
+remove(id: string) {
   return this.http.delete<void>(`${this.apiUrl}/${id}`);
 }
 ```

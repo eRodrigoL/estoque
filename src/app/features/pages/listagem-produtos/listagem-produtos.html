@@ -34,7 +34,7 @@
           <p>Observações: {{ produto.observacoes || 'Nenhuma' }}</p>
         </mat-card-content>
 
-        <button type="button" matButton="filled" [routerLink]="['/produtos/edicao', 1]">
+        <button type="button" matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">
           Editar
         </button>
       </mat-card>
