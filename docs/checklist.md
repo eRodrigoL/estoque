@@ -708,29 +708,30 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   > - `npx ng g c nome-da-interface`, se o Angular não foi instalado globalmente
 
   ```bash
-  npx ng generate interface shared/interfaces/produto
+  npx ng generate interface nome-da-interface
   ```
 
 - Neste projeto:
   - [ ] Criar `produto.ts`
 
     ```bash
-    npx ng generate interface nome-da-interface
+    npx ng generate interface shared/interfaces/produto
     ```
 
     ```ts
     // src/app/shared/interfaces/produto.ts
-    export interface produto {
+    export interface Produto {
       id: number;
-      titulo: string;
-      descricao: string;
-      concluida: boolean;
+      nome: string;
+      categoria: string;
+      preco: string;
+      qtEstoque: number;
+      observacoes: string;
+      reposicaoSolicitada: boolean;
     }
-
-    export type Payloadproduto = Omit<Produto, 'id'>;
     ```
 
-- [ ] Configurar `provideHttpClient()` no `app.config.ts`
+- [ ] Adicnionar `provideHttpClient()` no `app.config.ts`
 
   ```ts
   // src/app/app.config.ts
@@ -738,8 +739,8 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   import { ApplicationConfig } from '@angular/core';
   import { provideRouter } from '@angular/router';
   import { routes } from './app.routes';
-  import { provideHttpClient } from '@angular/common/http';
   */
+  import { provideHttpClient } from '@angular/common/http';
 
   export const appConfig: ApplicationConfig = {
     providers: [provideRouter(routes), provideHttpClient()],
@@ -747,6 +748,12 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   ```
 
 - [ ] Criar o serviço HTTP da feature
+
+  ```bash
+  npx ng g s core/services/nome-do-serviço
+  ```
+
+  > gosto de `usar nome-do-serviço.service` para a extensão **Material Icon Theme**, do Philipp Kief, no VS Code aplicar a iconografia corretamente.
   - Neste projeto:
 
     ```bash
@@ -757,9 +764,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - Neste projeto:
 
     ```ts
-    // src/app/core/services/produtos.service.ts
+    // export class ProdutosService {}
+
     import { HttpClient } from '@angular/common/http';
-    import { inject, Injectable } from '@angular/core';
+    import { inject, [...] } from '@angular/core';
 
     /*
     @Injectable({
@@ -777,7 +785,11 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
     ```ts
     // src/app/core/services/produtos.service.ts
-    private readonly apiUrl = 'http://localhost:3000/produtos';
+    [...]
+    export class ProdutosService {
+      [...]
+      private readonly apiUrl = 'http://localhost:3000/produtos';
+    }
     ```
 
 - [ ] Implementar `getAll`
@@ -785,19 +797,23 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
     ```ts
     // src/app/core/services/produtos.service.ts
+    [...]
     import { ..., HttpParams } from '@angular/common/http';
-    import { Produto } from '@shared/interfaces/produto';
+    import { Produto } from '@app/shared/interfaces/produto';
 
     [...]
+    export class ProdutosService {
+      [...]
 
-    getAll(busca?: string) {
-      let params = new HttpParams();
+      getAll(busca?: string) {
+        let params = new HttpParams();
 
-      if (busca) {
-        params = params.set(`q`, busca);
+        if (busca) {
+          params = params.set('q', busca);
+        }
+
+        return this.http.get<Produto[]>(this.apiUrl, { params });
       }
-
-      return this.http.get<Produto[]>(this.apiUrl, { params });
     }
     ```
 
@@ -806,8 +822,13 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
     ```ts
     // src/app/core/services/produtos.service.ts
-    getById(id: number | string) {
-      return this.http.get<Produto>(`${this.apiUrl}/${id}`);
+    [...]
+    export class ProdutosService {
+      [...]
+
+      getById(id: number | string) {
+        return this.http.get<Produto>(`${this.apiUrl}/${id}`);
+      }
     }
     ```
 
@@ -816,12 +837,16 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
     ```ts
     // src/app/core/services/produtos.service.ts
-    import { PayloadProduto } from '@shared/interfaces/produto';
+    [...]
+    import { PayloadProduto, [...] } from '@app/shared/interfaces/produto';
 
     [...]
+    export class ProdutosService {
+      [...]
 
-    criar(payload: PayloadProduto) {
-      return this.http.post<Produto>(this.apiUrl, payload);
+      create(payload: PayloadProduto) {
+        return this.http.put<Produto>(this.apiUrl, payload);
+      }
     }
     ```
 
@@ -830,8 +855,13 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
     ```ts
     // src/app/core/services/produtos.service.ts
-    update(id: number, payload: PayloadProduto) {
-      return this.http.put<Produto>(`${this.apiUrl}/${id}`, payload);
+    [...]
+    export class ProdutosService {
+      [...]
+
+      update(id: number, payload: PayloadProduto) {
+        return this.http.put<Produto>(`${this.apiUrl}/${id}`, payload);
+      }
     }
     ```
 
