@@ -431,11 +431,18 @@ npx ng add @angular/material
     import { MatFormFieldModule } from '@angular/material/form-field';
     import { MatButtonModule } from '@angular/material/button';
     import { MatCardModule } from '@angular/material/card';
+    import { MatInputModule } from '@angular/material/input';
     import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
     @Component({
       // selector: 'app-listagem-produtos',
-      imports: [MatFormFieldModule, MatButtonModule, MatCardModule, MatSlideToggleModule],
+      imports: [
+        MatFormFieldModule,
+        MatButtonModule,
+        MatCardModule,
+        MatInputModule,
+        MatSlideToggleModule,
+      ],
       // templateUrl: './listagem-produtos.html',
       // styleUrl: './listagem-produtos.scss',
     })
