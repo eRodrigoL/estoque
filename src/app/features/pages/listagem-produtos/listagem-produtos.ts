@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 import { RouterLink } from '@angular/router';
 
@@ -12,7 +13,14 @@ import { ProdutosService } from '@app/core/services/produtos.service';
 
 @Component({
   selector: 'app-listagem-produtos',
-  imports: [MatFormFieldModule, MatButtonModule, MatCardModule, MatSlideToggleModule, RouterLink],
+  imports: [
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+    MatSlideToggleModule,
+    RouterLink,
+    TextFieldModule,
+  ],
   templateUrl: './listagem-produtos.html',
   styleUrl: './listagem-produtos.scss',
 })

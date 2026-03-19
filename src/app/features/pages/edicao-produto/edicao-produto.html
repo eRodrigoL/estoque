@@ -22,19 +22,19 @@
       <input matInput placeholder="Digite quantidade no estoque" />
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Reposição já foi solicitada?></mat-label>
-      <mat-slide-toggle />
-    </mat-form-field>
+    <div>
+      <label>Reposição já foi solicitada?</label>
+      <mat-slide-toggle>Sim</mat-slide-toggle>
+    </div>
 
     <mat-form-field>
       <mat-label>Observações</mat-label>
       <input matInput placeholder="Opcionais" />
     </mat-form-field>
-  </form>
 
-  <div>
-    <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
-    <button type="submit" matButton="filled">Salvar</button>
-  </div>
+    <div>
+      <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
+      <button type="submit" matButton="filled">Salvar</button>
+    </div>
+  </form>
 </section>

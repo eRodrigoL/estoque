@@ -26,7 +26,7 @@ export class ProdutosService {
   }
 
   create(payload: PayloadProduto) {
-    return this.http.put<Produto>(this.apiUrl, payload);
+    return this.http.post<Produto>(this.apiUrl, payload);
   }
 
   update(id: number, payload: PayloadProduto) {

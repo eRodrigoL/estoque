@@ -413,8 +413,8 @@ npx ng add @angular/material
         </mat-card-header>
 
         <mat-card-content>
-          <p>R$ 12,99</p>
-          <p>Estoque: 10</p>
+          <p>Preço: R$ 12,99</p>
+          <p>Em estoque: 10</p>
           <p>Reposição solicitada: <mat-slide-toggle /></p>
           <p>Observações: nenhuma</p>
         </mat-card-content>
@@ -470,10 +470,10 @@ npx ng add @angular/material
           <input matInput placeholder="Digite quantidade no estoque" />
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Reposição já foi solicitada?></mat-label>
-          <mat-slide-toggle />
-        </mat-form-field>
+        <div>
+          <label>Reposição já foi solicitada?</label>
+          <mat-slide-toggle>Sim</mat-slide-toggle>
+        </div>
 
         <mat-form-field>
           <mat-label>Observações</mat-label>
@@ -485,12 +485,12 @@ npx ng add @angular/material
             placeholder="(opcional)"
           ></textarea>
         </mat-form-field>
-      </form>
 
-      <div>
-        <button type="button" matButton="outlined">Cancelar</button>
-        <button type="submit" matButton="filled">Salvar</button>
-      </div>
+        <div>
+          <button type="button" matButton="outlined">Cancelar</button>
+          <button type="submit" matButton="filled">Salvar</button>
+        </div>
+      </form>
     </section>
     ```
 
@@ -502,10 +502,17 @@ npx ng add @angular/material
     import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     import { MatButtonModule } from '@angular/material/button';
     import { MatInputModule } from '@angular/material/input';
+    import { TextFieldModule } from '@angular/cdk/text-field';
 
     @Component({
       // selector: 'app-registro-produto',
-      imports: [MatFormFieldModule, MatSlideToggleModule, MatButtonModule, MatInputModule],
+      imports: [
+        MatFormFieldModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatInputModule,
+        TextFieldModule,
+      ],
       // templateUrl: './registro-produto.html',
       // styleUrl: './registro-produto.scss',
     })
@@ -851,7 +858,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       [...]
 
       create(payload: PayloadProduto) {
-        return this.http.put<Produto>(this.apiUrl, payload);
+        return this.http.post<Produto>(this.apiUrl, payload);
       }
     }
     ```
@@ -933,8 +940,8 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
         </mat-card-header>
 
         <mat-card-content>
-          <p>{{ produto.preco }}</p>
-          <p>{{ produto.qtEstoque }}</p>
+          <p>Preço: {{ produto.preco }}</p>
+          <p>Em estoque: {{ produto.qtEstoque }}</p>
           <p>
             Reposição solicitada:
             <mat-slide-toggle [checked]="produto.reposicaoSolicitada" [disabled]="true" />
@@ -1040,7 +1047,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ---
 
-### 13. CRUD funcional — criação
+### 13. CRUD funcional — criação / registro
 
 - Criar produto
   - [ ] Montar formulário com Reactive Forms
@@ -1073,18 +1080,42 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/produtos/pages/criacao-produto/criacao-produto.html -->
-    [...]
-    <form [formGroup]="form">
+    <!-- src/app/features/pages/registro-produto/registro-produto.html -->
+    <section>
       [...]
-      <mat-label>Título</mat-label>
-      <input [...] formControlName="titulo" [...] />
+      <form>
+        <mat-form-field>
+          <mat-label>Nome do Produto</mat-label>
+          <input [...] formControlName="nome" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Categoria do Produto</mat-label>
+          <input [...] formControlName="categoria" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Preço do Produto</mat-label>
+          <input [...] formControlName="preco" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Quantidade no Estoque</mat-label>
+          <input [...] formControlName="qtEstoque" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Reposição já foi solicitada?></mat-label>
+          <mat-slide-toggle formControlName="reposicaoSolicitada" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Observações</mat-label>
+          <textarea [...] formControlName="observacoes"></textarea>
+        </mat-form-field>
+      </form>
       [...]
-      <mat-label>Descrição</mat-label>
-      <textarea [...] formControlName="descricao" [...]></textarea>
-      [...]
-    </form>
-    [...]
+    </section>
     ```
 
   - [ ] Fazer submit simples no front
