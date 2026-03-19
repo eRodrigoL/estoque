@@ -887,7 +887,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ---
 
-### 12. CRUD funcional — listagem primeiro
+### 12. CRUD funcional — listagem
 
 - Listar produtos
   - [ ] Buscar lista no backend
@@ -917,25 +917,43 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Trocar itens estáticos da listagem por dados reais
 
     ```html
-    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
+    <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
     <section>
       [...] @for (produto of produtos(); track produto.id) {
       <mat-card>
         <mat-card-header>
-          <mat-card-title>{{ produto.titulo }}</mat-card-title>
-          <mat-card-subtitle>
-            {{ produto.concluida ? 'Concluída' : 'Pendente' }}
-          </mat-card-subtitle>
+          <mat-card-title>{{ produto.nome }}</mat-card-title>
+          <mat-card-subtitle>{{ produto.categoria }}</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
-          <p>{{ produto.descricao }}</p>
+          <p>{{ produto.preco }}</p>
+          <p>{{ produto.qtEstoque }}</p>
+          <p>
+            Reposição solicitada:
+            <mat-slide-toggle [checked]="produto.reposicaoSolicitada" [disabled]="true" />
+          </p>
+          <p>Observações: {{ produto.observacoes || 'Nenhuma' }}</p>
         </mat-card-content>
 
-        <mat-card-actions>
-          <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
-          <button matButton="outlined">Remover</button>
-        </mat-card-actions>
+        <button type="button" matButton="filled" [routerLink]="['/produtos/edicao', 1]">
+          Editar
+        </button>
+      </mat-card>
+      }
+    </section>
+    ```
+
+  - opcionalmente, **porém muito recomendado**: `@empty` para os casos de banco de dados vazio
+
+    ```html
+    <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
+    <section>
+      [...] @for (produto of produtos(); track produto.id) { [...] } @empty {
+      <mat-card>
+        <mat-card-content>
+          <p>Nenhum produto cadastrado no momento.</p>
+        </mat-card-content>
       </mat-card>
       }
     </section>
@@ -944,16 +962,16 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Exibir carregamento simples
 
     ```ts
-    // src/app/features/produtos/pages/listagem-produtos/listagem-produtos.ts
+    // src/app/features/pages/listagem-produtos/listagem-produtos.ts
     export class ListagemProdutos {
-      ...
+      [...]
 
       carregando = signal(true);
 
       ngOnInit() {
         this.produtosService.getAll().subscribe({
           next: (produtos) => {
-            this.produtos.set(produtos);
+            // this.produtos.set(produtos);
             this.carregando.set(false);
           },
           error: () => {
@@ -965,13 +983,11 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     ```
 
     ```html
-    <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
+    <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
     <section>
       [...] @if (carregando()) {
       <p>Carregando produtos...</p>
-      } @else { @for (produto of produtos(); track produto.id) {
-      <mat-card> [...] </mat-card>
-      } }
+      } @else { @for (produto of produtos(); track produto.id) { [...] } @empty { [...] } }
     </section>
     ```
 
@@ -986,13 +1002,15 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
       ngOnInit() {
         this.produtosService.getAll().subscribe({
+          /*
           next: (produtos) => {
             this.produtos.set(produtos);
             this.carregando.set(false);
           },
+          */
           error: () => {
-            this.erro.set('Nao foi possivel carregar as produtos.');
-            this.carregando.set(false);
+            this.erro.set('Não foi possível carregar os produtos');
+            // this.carregando.set(false);
           },
         });
       }

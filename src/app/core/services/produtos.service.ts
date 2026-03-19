@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { PayloadProduto, Produto } from '@app/shared/interfaces/produto';
+import { delay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class ProdutosService {
       params = params.set('q', busca);
     }
 
-    return this.http.get<Produto[]>(this.apiUrl, { params });
+    return this.http.get<Produto[]>(this.apiUrl, { params }).pipe(delay(2000));
   }
 
   getById(id: number | string) {
