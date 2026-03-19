@@ -16,7 +16,7 @@ No TypeScript:
 
 ```ts
 //                 ┌── nome da interface
-export interface Nome {
+export interface Produto {
   id: number;
   campoExemplo2: string;
   campoExemplo1: boolean;
@@ -41,10 +41,10 @@ Definir o formato dos dados enviados ao backend.
 ### (2) Exemplo
 
 ```ts
-export type PayloadTarefa = Omit<Tarefa, 'id'>;
-//               │            │    │       │
-//               │            │    │       └── propriedade removida
-//               │            │    └── tipo base
+export type PayloadProduto = Omit<Produto, 'id'>;
+//               │            │     │       │
+//               │            │     │       └── propriedade removida
+//               │            │     └── tipo base
 //               │            └── utility type que remove campos
 //               └── novo nome do tipo
 ```

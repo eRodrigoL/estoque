@@ -477,7 +477,13 @@ npx ng add @angular/material
 
         <mat-form-field>
           <mat-label>Observações</mat-label>
-          <input matInput placeholder="Opcionais" />
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="6"
+            placeholder="(opcional)"
+          ></textarea>
         </mat-form-field>
       </form>
 
@@ -1040,27 +1046,28 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   - [ ] Montar formulário com Reactive Forms
 
     ```ts
-    // src/app/features/produtos/pages/criacao-produto/criacao-produto.ts
+    // src/app/features/pages/registro-produto/registro-produto.ts
+
     [...]
     import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
     @Component({
+      // selector: 'app-registro-produto',
       imports: [
         [...]
         ReactiveFormsModule,
       ],
+      // templateUrl: './registro-produto.html',
+      // styleUrl: './registro-produto.scss',
     })
-
-    export class CriacaoProduto {
+    export class RegistroProduto {
       form = new FormGroup({
-        titulo: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required],
-        }),
-        descricao: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required],
-        }),
+        nome: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        categoria: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        preco: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        qtEstoque: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        observacoes: new FormControl('', { nonNullable: true }),
+        reposicaoSolicitada: new FormControl(false, { nonNullable: true }),
       });
     }
     ```

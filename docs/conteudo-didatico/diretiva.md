@@ -16,8 +16,8 @@ No TypeScript para criar a diretiva e no HTML para aplicá-la.
   selector: '[appBotaoPerigo]',
 })
 
-//                                    ┌── informa o uso do ciclo de vida OnInit dentro da classe
-//                        ┌───────────┴───────────┐
+//                                ┌── informa o uso do ciclo de vida OnInit dentro da classe
+//                        ┌───────┴───────┐
 export class BotaoPerigo implements OnInit {
   private readonly hostEl = inject(ElementRef).nativeElement as HTMLElement;
   //  │      │       │        │        │             │              └── diz ao TypeScript que esse elemento será tratado como HTMLElement
