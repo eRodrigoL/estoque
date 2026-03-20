@@ -37,6 +37,9 @@
         <button type="button" matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">
           Editar
         </button>
+        <button type="button" matButton="tonal" (click)="removerProduto(produto.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </mat-card>
     } @empty {
       <mat-card>

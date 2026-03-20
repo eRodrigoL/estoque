@@ -1,3 +1,13 @@
 {
-  "produtos": []
+  "produtos": [
+    {
+      "id": "7055",
+      "nome": "Copo",
+      "categoria": "Utensílio de cozinha",
+      "preco": "50,00",
+      "qtEstoque": "3",
+      "observacoes": "Frágil",
+      "reposicaoSolicitada": true
+    }
+  ]
 }

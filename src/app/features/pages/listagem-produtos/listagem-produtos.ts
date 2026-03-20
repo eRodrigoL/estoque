@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
 
 import { RouterLink } from '@angular/router';
@@ -20,6 +21,7 @@ import { ProdutosService } from '@app/core/services/produtos.service';
     MatCardModule,
     MatSlideToggleModule,
     MatInputModule,
+    MatIconModule,
     TextFieldModule,
     RouterLink,
   ],
@@ -42,6 +44,14 @@ export class ListagemProdutos {
       error: () => {
         this.erro.set('Não foi possível carregar os produtos');
         this.carregando.set(false);
+      },
+    });
+  }
+
+  removerProduto(id: string) {
+    this.produtosService.remove(id).subscribe({
+      next: () => {
+        this.produtos.update((produtos) => produtos.filter((produto) => produto.id !== id));
       },
     });
   }

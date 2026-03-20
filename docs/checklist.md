@@ -420,6 +420,9 @@ npx ng add @angular/material
         </mat-card-content>
 
         <button type="button" matButton="filled">Editar</button>
+        <button type="button" matButton="tonal">
+          <mat-icon>delete</mat-icon>
+        </button>
       </mat-card>
     </section>
     ```
@@ -432,6 +435,7 @@ npx ng add @angular/material
     import { MatButtonModule } from '@angular/material/button';
     import { MatCardModule } from '@angular/material/card';
     import { MatInputModule } from '@angular/material/input';
+    import { MatIconModule } from '@angular/material/icon';
     import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
     @Component({
@@ -441,6 +445,7 @@ npx ng add @angular/material
         MatButtonModule,
         MatCardModule,
         MatInputModule,
+        MatIconModule,
         MatSlideToggleModule,
       ],
       // templateUrl: './listagem-produtos.html',
