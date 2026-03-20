@@ -350,7 +350,7 @@ npx ng add @angular/material
       <router-outlet />
       ```
 
-    - [ ] Adicionar toolbar
+    - [ ] Adicionar cabeçalho
 
       ```html
       <!-- src/app/app.html -->
@@ -1540,20 +1540,6 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   ```
 
 - [ ] Melhorar o cabeçalho
-
-  ```ts
-  // src/app/shared/components/cabecalho/cabecalho.ts
-  import { Component } from '@angular/core';
-  import { MatToolbarModule } from '@angular/material/toolbar';
-
-  @Component({
-    selector: 'app-cabecalho',
-    imports: [MatToolbarModule],
-    templateUrl: './cabecalho.html',
-    styleUrl: './cabecalho.scss',
-  })
-  export class Cabecalho {}
-  ```
 
   ```html
   <!-- src/app/shared/components/cabecalho/cabecalho.html -->
