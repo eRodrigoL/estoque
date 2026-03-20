@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
@@ -19,7 +19,7 @@ import { ProdutosService } from '@app/core/services/produtos.service';
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
-    MatSlideToggleModule,
+    MatCheckboxModule,
     MatInputModule,
     MatIconModule,
     TextFieldModule,

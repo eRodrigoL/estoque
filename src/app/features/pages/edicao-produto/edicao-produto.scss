@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+section {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+}
+
+h2 {
+  margin: 0;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.campo-checkbox {
+  display: grid;
+  gap: 8px;
+}
+
+.acoes-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

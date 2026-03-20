@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
@@ -14,7 +14,7 @@ import { ProdutosService } from '@app/core/services/produtos.service';
   selector: 'app-edicao-produto',
   imports: [
     MatFormFieldModule,
-    MatSlideToggleModule,
+    MatCheckboxModule,
     MatButtonModule,
     MatInputModule,
     RouterLink,

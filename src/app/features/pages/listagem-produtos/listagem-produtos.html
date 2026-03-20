@@ -1,52 +1,61 @@
 <section>
   <h2>Produtos</h2>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Pesquisar produto</mat-label>
-    <input matInput placeholder="Ex: refrigerante" />
+    <input matInput placeholder="Ex.: refrigerante" />
   </mat-form-field>
 
-  <div>
+  <div class="acoes-topo">
     <button type="button" matButton="filled" routerLink="/produtos/registro">
       Adicionar produto
     </button>
   </div>
 
-  @if (carregando()) {
-    <p>Carregando produtos...</p>
-  } @else if (erro()) {
-    <p>{{ erro() }}</p>
-  } @else {
-    @for (produto of produtos(); track produto.id) {
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ produto.nome }}</mat-card-title>
-          <mat-card-subtitle>{{ produto.categoria }}</mat-card-subtitle>
-        </mat-card-header>
+  <div class="lista-cards">
+    @if (carregando()) {
+      <p>Carregando produtos...</p>
+    } @else if (erro()) {
+      <p>{{ erro() }}</p>
+    } @else {
+      @for (produto of produtos(); track produto.id) {
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ produto.nome }}</mat-card-title>
+            <mat-card-subtitle>{{ produto.categoria }}</mat-card-subtitle>
+          </mat-card-header>
 
-        <mat-card-content>
-          <p>Preço: {{ produto.preco }}</p>
-          <p>Em estoque: {{ produto.qtEstoque }}</p>
-          <p>
-            Reposição solicitada:
-            <mat-slide-toggle [checked]="produto.reposicaoSolicitada" [disabled]="true" />
-          </p>
-          <p>Observações: {{ produto.observacoes || 'Nenhuma' }}</p>
-        </mat-card-content>
+          <mat-card-content>
+            <p>Preço: {{ produto.preco }}</p>
+            <p>Em estoque: {{ produto.qtEstoque }}</p>
+            <p>
+              Reposição solicitada:
+              <mat-checkbox [checked]="produto.reposicaoSolicitada" [disabled]="true" />
+            </p>
+            <p>Observações: {{ produto.observacoes || 'Nenhuma' }}</p>
+          </mat-card-content>
 
-        <button type="button" matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">
-          Editar
-        </button>
-        <button type="button" matButton="tonal" (click)="removerProduto(produto.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-card>
-    } @empty {
-      <mat-card>
-        <mat-card-content>
-          <p>Nenhum produto cadastrado no momento.</p>
-        </mat-card-content>
-      </mat-card>
+          <mat-card-actions>
+            <button
+              type="button"
+              matButton="filled"
+              [routerLink]="['/produtos/edicao', produto.id]"
+            >
+              Editar
+            </button>
+
+            <button type="button" matButton="tonal" (click)="removerProduto(produto.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <mat-card>
+          <mat-card-content>
+            <p>Nenhum produto cadastrado no momento.</p>
+          </mat-card-content>
+        </mat-card>
+      }
     }
-  }
+  </div>
 </section>

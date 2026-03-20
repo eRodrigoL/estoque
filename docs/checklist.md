@@ -415,7 +415,7 @@ npx ng add @angular/material
         <mat-card-content>
           <p>Preço: R$ 12,99</p>
           <p>Em estoque: 10</p>
-          <p>Reposição solicitada: <mat-slide-toggle /></p>
+          <p>Reposição solicitada: <mat-checkbox /></p>
           <p>Observações: nenhuma</p>
         </mat-card-content>
 
@@ -436,7 +436,7 @@ npx ng add @angular/material
     import { MatCardModule } from '@angular/material/card';
     import { MatInputModule } from '@angular/material/input';
     import { MatIconModule } from '@angular/material/icon';
-    import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+    import { MatCheckboxModule } from '@angular/material/checkbox';
 
     @Component({
       // selector: 'app-listagem-produtos',
@@ -446,7 +446,7 @@ npx ng add @angular/material
         MatCardModule,
         MatInputModule,
         MatIconModule,
-        MatSlideToggleModule,
+        MatCheckboxModule,
       ],
       // templateUrl: './listagem-produtos.html',
       // styleUrl: './listagem-produtos.scss',
@@ -484,7 +484,7 @@ npx ng add @angular/material
 
         <div>
           <label>Reposição já foi solicitada?</label>
-          <mat-slide-toggle></mat-slide-toggle>
+          <mat-checkbox />
         </div>
 
         <mat-form-field>
@@ -511,7 +511,7 @@ npx ng add @angular/material
 
     // import { Component } from '@angular/core';
     import { MatFormFieldModule } from '@angular/material/form-field';
-    import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+    import { MatCheckboxModule } from '@angular/material/checkbox';
     import { MatButtonModule } from '@angular/material/button';
     import { MatInputModule } from '@angular/material/input';
     import { TextFieldModule } from '@angular/cdk/text-field';
@@ -520,7 +520,7 @@ npx ng add @angular/material
       // selector: 'app-registro-produto',
       imports: [
         MatFormFieldModule,
-        MatSlideToggleModule,
+        MatCheckboxModule,
         MatButtonModule,
         MatInputModule,
         TextFieldModule,
@@ -754,6 +754,8 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
       observacoes: string;
       reposicaoSolicitada: boolean;
     }
+
+    export type PayloadProduto = Omit<Produto, 'id'>;
     ```
 
 - [ ] Adicnionar `provideHttpClient()` no `app.config.ts`
@@ -956,7 +958,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
           <p>Em estoque: {{ produto.qtEstoque }}</p>
           <p>
             Reposição solicitada:
-            <mat-slide-toggle [checked]="produto.reposicaoSolicitada" [disabled]="true" />
+            <mat-checkbox [checked]="produto.reposicaoSolicitada" [disabled]="true" />
           </p>
           <p>Observações: {{ produto.observacoes || 'Nenhuma' }}</p>
         </mat-card-content>
@@ -1118,7 +1120,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
         <mat-form-field>
           <mat-label>Reposição já foi solicitada?></mat-label>
-          <mat-slide-toggle formControlName="reposicaoSolicitada" />
+          <mat-checkbox formControlName="reposicaoSolicitada" />
         </mat-form-field>
 
         <mat-form-field>
@@ -1288,7 +1290,7 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
         <div>
           <label>Reposição já foi solicitada?</label>
-          <mat-slide-toggle formControlName="reposicaoSolicitada"></mat-slide-toggle>
+          <mat-checkbox formControlName="reposicaoSolicitada" />
         </div>
 
         <mat-form-field>
@@ -1475,30 +1477,64 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
 ### 16. Refinar interface com Angular Material e SCSS — nível rudimentar primeiro
 
-> No Angular 21:
->
-> - estilos globais ficam em `src/styles.scss`
-> - estilos locais ficam no `styleUrl` de cada componente
-> - Angular Material continua sendo a biblioteca oficial de componentes visuais para Angular
-> - o ideal é manter tema e overrides globais separados da estilização específica de cada tela
+A instalação do Angular Material via `npx ng add @angular/material` modifica o arquivo `src/styles.scss`, deixando uma base inicial de tema.
 
-- [ ] Definir o tema global do Angular Material em src/styles.scss
+```scss
+// src/styles.scss
+
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: red,
+        tertiary: blue,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
+```
+
+- [ ] Fazer os ajustes restantes no estilo global
 
   ```scss
   // src/styles.scss
+
   @use '@angular/material' as mat;
 
   html {
     @include mat.theme(
       (
         color: (
-          primary: mat.$azure-palette,
-          tertiary: mat.$blue-palette,
+          primary: red,
+          tertiary: blue,
         ),
         typography: Roboto,
         density: 0,
       )
     );
+  }
+
+  body {
+    color-scheme: light;
+    background-color: #f7f8fc;
+    color: #1f2937;
+    font: var(--mat-sys-body-medium);
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    margin: 0;
   }
 
   * {
@@ -1507,19 +1543,17 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
 
   html,
   body {
-    height: 100%;
+    min-height: 100%;
   }
 
-  body {
-    margin: 0;
-    background-color: var(--mat-sys-surface);
-    color: var(--mat-sys-on-surface);
-    font: var(--mat-sys-body-medium);
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+  button,
+  input,
+  textarea {
+    font: inherit;
   }
   ```
 
-- [ ] Melhorar o shell principal da aplicação
+- [ ] Ajustar visualmente o shell principal da aplicação
 
   ```html
   <!-- src/app/app.html -->
@@ -1539,12 +1573,12 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-- [ ] Melhorar o cabeçalho
+- [ ] Ajustar visualmente o cabeçalho
 
   ```html
   <!-- src/app/shared/components/cabecalho/cabecalho.html -->
   <mat-toolbar class="cabecalho">
-    <span>Lista de Produtos</span>
+    <span class="cabecalho__titulo">Estoque de Produtos</span>
   </mat-toolbar>
   ```
 
@@ -1555,13 +1589,43 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     top: 0;
     z-index: 10;
     padding-inline: 16px;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.08);
+  }
+
+  .cabecalho__titulo {
+    font-weight: 600;
   }
   ```
 
-- [ ] Padronizar a página de listagem com espaçamento e largura útil
+  ```scss
+  // src/styles.scss
+  :root {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: blue,
+        container-text-color: white,
+      )
+    );
+  }
+  ```
+
+- [ ] Ajustar visualmente a listagem
+
+  ```html
+  <!-- src/app/features/pages/listagem-produtos/listagem-produtos.html -->
+  <section>
+    [...]
+
+    <mat-form-field appearance="outline"> [...] </mat-form-field>
+
+    <div class="acoes-topo">[...]</div>
+
+    <div class="lista-cards">[...]</div>
+  </section>
+  ```
 
   ```scss
-  /* src/app/features/produtos/pages/listagem-produtos/listagem-produtos.scss */
+  /* src/app/features/pages/listagem-produtos/listagem-produtos.scss */
   :host {
     display: block;
   }
@@ -1569,6 +1633,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   section {
     display: grid;
     gap: 16px;
+  }
+
+  h2 {
+    margin: 0;
   }
 
   .acoes-topo {
@@ -1585,59 +1653,61 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     width: 100%;
   }
 
+  mat-card {
+    border-radius: 16px;
+    background-color: #ffffff;
+    border: 1px solid #d6d9e0;
+  }
+
+  mat-card-content {
+    display: grid;
+    gap: 8px;
+  }
+
+  mat-card-content p {
+    margin: 0;
+  }
+
   mat-card-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+    padding-inline: 16px;
+    padding-bottom: 16px;
   }
   ```
 
-- [ ] Ajustar o template da listagem para usar a estrutura visual
+- [ ] Ajustar o visual das telas de registro e edição
 
   ```html
-  <!-- src/app/features/produtos/pages/listagem-produtos/listagem-produtos.html -->
+  <!-- src/app/features/pages/edicao-produto/edicao-produto.html -->
+  <!-- src/app/features/pages/registro-produto/registro-produto.html -->
   <section>
-    <h2>Produtos</h2>
+    [...]
 
-    <mat-form-field>
-      <mat-label>Pesquisar produto</mat-label>
-      <input matInput placeholder="Ex.: estudar para prova" />
-    </mat-form-field>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline"> [...] </mat-form-field>
 
-    <div class="acoes-topo">
-      <button type="button" matButton="filled" routerLink="/produtos/criacao">Nova produto</button>
-    </div>
+      <mat-form-field appearance="outline"> [...] </mat-form-field>
 
-    <div class="lista-cards">
-      @if (carregando()) {
-      <p>Carregando produtos...</p>
-      } @else if (erro()) {
-      <p>{{ erro() }}</p>
-      } @else { @for (produto of produtos(); track produto.id) {
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ produto.titulo }}</mat-card-title>
-          <mat-card-subtitle>{{ produto.concluida ? 'Concluída' : 'Pendente' }}</mat-card-subtitle>
-        </mat-card-header>
+      <mat-form-field appearance="outline"> [...] </mat-form-field>
 
-        <mat-card-content>
-          <p>{{ produto.descricao }}</p>
-        </mat-card-content>
+      <mat-form-field appearance="outline"> [...] </mat-form-field>
 
-        <mat-card-actions>
-          <button matButton="filled" [routerLink]="['/produtos/edicao', produto.id]">Editar</button>
-          <button matButton="outlined" (click)="removerProduto(produto.id)">Remover</button>
-        </mat-card-actions>
-      </mat-card>
-      } }
-    </div>
+      <div class="campo-checkbox">[...]</div>
+
+      <mat-form-field appearance="outline"> [...] </mat-form-field>
+
+      <div class="acoes-formulario">[...]</div>
+    </form>
   </section>
   ```
 
-- [ ] Padronizar registro e edição com o mesmo layout de formulário
-
   ```scss
-  /* usar o mesmo padrão em criacao-produto.scss e edicao-produto.scss */
+  /* usar o mesmo padrão em:
+     src/app/features/pages/registro-produto/registro-produto.scss
+     src/app/features/pages/edicao-produto/edicao-produto.scss
+  */
   :host {
     display: block;
   }
@@ -1646,6 +1716,10 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     display: grid;
     gap: 16px;
     max-width: 720px;
+  }
+
+  h2 {
+    margin: 0;
   }
 
   form {
@@ -1657,6 +1731,11 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
     width: 100%;
   }
 
+  .campo-checkbox {
+    display: grid;
+    gap: 8px;
+  }
+
   .acoes-formulario {
     display: flex;
     justify-content: flex-end;
@@ -1664,69 +1743,48 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   }
   ```
 
-- [ ] Ajustar o template do registro
+- [ ] Ajustar o estilo do modal de confirmação
 
   ```html
-  <!-- src/app/features/produtos/pages/criacao-produto/criacao-produto.html -->
-  <section>
-    <h2>Criação de produto</h2>
+  <!-- src/app/shared/components/modal-confirmacao/modal-confirmacao.html -->
+  <h2 mat-dialog-title>Remover produto</h2>
 
-    <form [formGroup]="form" (ngSubmit)="salvar()">
-      <mat-form-field>
-        <mat-label>Título</mat-label>
-        <input matInput formControlName="titulo" placeholder="Digite o título da produto" />
-      </mat-form-field>
+  [...]
 
-      <mat-form-field>
-        <mat-label>Descrição</mat-label>
-        <textarea
-          matInput
-          formControlName="descricao"
-          placeholder="Digite uma descrição para a produto"
-        ></textarea>
-      </mat-form-field>
-
-      <div class="acoes-formulario">
-        <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
-        <button type="submit" matButton="filled">Salvar</button>
-      </div>
-    </form>
-  </section>
+  <mat-dialog-actions align="end">
+    <button type="button" matButton="outlined">Cancelar</button>
+    <button type="button" matButton="filled" mat-dialog-close="true">Remover</button>
+  </mat-dialog-actions>
   ```
 
-- [ ] Ajustar o template da edição
+  ```scss
+  /* src/app/shared/components/modal-confirmacao/modal-confirmacao.scss */
+  :host {
+    display: block;
+  }
 
-  ```html
-  <!-- src/app/features/produtos/pages/edicao-produto/edicao-produto.html -->
-  <section>
-    <h2>Edição de produto</h2>
+  mat-dialog-content {
+    padding-top: 8px;
+  }
 
-    <form [formGroup]="form" (ngSubmit)="salvar()">
-      <mat-form-field>
-        <mat-label>Título</mat-label>
-        <input matInput formControlName="titulo" />
-      </mat-form-field>
+  mat-dialog-content p {
+    margin: 0;
+  }
 
-      <mat-form-field>
-        <mat-label>Descrição</mat-label>
-        <textarea matInput formControlName="descricao"></textarea>
-      </mat-form-field>
-
-      <div class="acoes-formulario">
-        <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
-        <button type="submit" matButton="filled">Salvar alterações</button>
-      </div>
-    </form>
-  </section>
+  mat-dialog-actions {
+    gap: 8px;
+  }
   ```
 
-- [ ] Validar se a interface já está apresentável
-  - [ ] header visível e estável
+- Validar se a aparência já está suficiente para a prova
   - [ ] conteúdo centralizado
-  - [ ] formulários com largura boa
-  - [ ] cards com espaçamento consistente
-  - [ ] ações alinhadas
-  - [ ] aparência coerente entre listagem, registro e edição
+  - [ ] cabeçalho fixo e legível
+  - [ ] listagem com espaçamento adequado
+  - [ ] cards com aparência organizada
+  - [ ] formulários com largura confortável
+  - [ ] ações alinhadas à direita
+  - [ ] modal simples e claro
+  - [ ] visual consistente entre listagem, registro, edição e confirmação
 
 ## FASE 6. Aprimoramentos nível 1
 
@@ -1738,32 +1796,32 @@ Roteamento e navegação [🔎](./conteudo-teorico/navegacao.md)
   npx ng g i features/produtos/forms/produto-form
   ```
 
-  ```ts
-  // src/app/features/produtos/forms/produto-form.ts
-  import { FormControl, FormGroup, Validators } from '@angular/forms';
+```ts
+// src/app/features/produtos/forms/produto-form.ts
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-  export type ProdutoForm = FormGroup<{
-    titulo: FormControl<string>;
-    descricao: FormControl<string>;
-    concluida: FormControl<boolean>;
-  }>;
+export type ProdutoForm = FormGroup<{
+  titulo: FormControl<string>;
+  descricao: FormControl<string>;
+  concluida: FormControl<boolean>;
+}>;
 
-  export function criarProdutoForm(): ProdutoForm {
-    return new FormGroup({
-      titulo: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required],
-      }),
-      descricao: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required],
-      }),
-      concluida: new FormControl(false, {
-        nonNullable: true,
-      }),
-    });
-  }
-  ```
+export function criarProdutoForm(): ProdutoForm {
+  return new FormGroup({
+    titulo: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    descricao: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    concluida: new FormControl(false, {
+      nonNullable: true,
+    }),
+  });
+}
+```
 
 - [ ] Usar a fábrica no registro
 

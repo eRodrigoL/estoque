@@ -2,32 +2,32 @@
   <h2>Registro de Produto</h2>
 
   <form [formGroup]="form" (ngSubmit)="salvar()">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Nome do Produto</mat-label>
       <input matInput placeholder="Digite o nome do produto" formControlName="nome" />
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Categoria do Produto</mat-label>
       <input matInput placeholder="Digite a categoria do produto" formControlName="categoria" />
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Preço do Produto</mat-label>
       <input matInput placeholder="Digite o preço do produto" formControlName="preco" />
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Quantidade no Estoque</mat-label>
       <input matInput placeholder="Digite quantidade no estoque" formControlName="qtEstoque" />
     </mat-form-field>
 
-    <div>
+    <div class="campo-checkbox">
       <label>Reposição já foi solicitada?</label>
-      <mat-slide-toggle formControlName="reposicaoSolicitada"></mat-slide-toggle>
+      <mat-checkbox formControlName="reposicaoSolicitada" />
     </div>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Observações</mat-label>
       <textarea
         matInput
@@ -39,7 +39,7 @@
       ></textarea>
     </mat-form-field>
 
-    <div>
+    <div class="acoes-formulario">
       <button type="button" matButton="outlined" routerLink="/produtos">Cancelar</button>
       <button type="submit" matButton="filled">Salvar</button>
     </div>

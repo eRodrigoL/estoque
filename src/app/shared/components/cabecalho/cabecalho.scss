@@ -1,0 +1,11 @@
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding-inline: 16px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.08);
+}
+
+.cabecalho__titulo {
+  font-weight: 600;
+}
